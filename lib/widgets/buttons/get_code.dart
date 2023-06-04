@@ -3,6 +3,7 @@ import 'package:code_lab/theme/colors.dart';
 import 'package:dotted_border/dotted_border.dart';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class GetCode extends StatefulWidget {
   GetCode({Key? key, this.onpress, this.text}) : super(key: key);
@@ -19,7 +20,7 @@ class _GetCodeState extends State<GetCode> {
         style: ElevatedButton.styleFrom(
             backgroundColor: primaryColor, foregroundColor: kWhite),
         child: AutoSizeText(
-          widget.text == null ? 'Get Code' : widget.text.toString(),
+          widget.text == null ? 'get_code'.tr : widget.text.toString(),
           maxLines: 1,
         ),
         onPressed: () {
@@ -79,15 +80,15 @@ class _CopyCodeState extends State<CopyCode> {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
             backgroundColor: primaryColor, foregroundColor: kWhite),
-        child: const AutoSizeText(
-          "Copy Code",
+        child: AutoSizeText(
+          "copy_code".tr,
           maxLines: 1,
         ),
         onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
-              "Code Coppied Succesfully",
-              style: TextStyle(color: Colors.white),
+              "code_copied_successfully".tr,
+              style: const TextStyle(color: Colors.white),
             ),
             backgroundColor: Colors.green,
           ));

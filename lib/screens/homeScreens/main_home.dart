@@ -36,22 +36,22 @@ class _MainHomeState extends State<MainHome> {
               print(value);
               print(currentIndex);
             },
-            items: const [
+            items: [
               BottomNavigationBarItem(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.home,
                   ),
-                  label: "Home"),
+                  label: "home".tr),
               BottomNavigationBarItem(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.category,
                   ),
-                  label: "Brands"),
+                  label: "brands".tr),
               BottomNavigationBarItem(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.person,
                   ),
-                  label: "Profile"),
+                  label: "profile".tr),
             ]),
         body: pages[currentIndex]);
   }

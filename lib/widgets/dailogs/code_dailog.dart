@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:code_lab/controllers/home_controller.dart';
 import 'package:code_lab/models/deals_model.dart';
 import 'package:code_lab/theme/colors.dart';
@@ -5,6 +6,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
+import '../../localStorage/pref.dart';
 
 Future codeDailog(context, DealsModel deal) {
   return showModalBottomSheet(
@@ -23,14 +26,18 @@ Future codeDailog(context, DealsModel deal) {
               ),
               deal.image == null
                   ? Image.asset("assest/images/no-image.png")
-                  : Image.network(
-                      deal.image.toString(),
+                  : CachedNetworkImage(
+                      imageUrl: deal.image.toString(),
+                      fit: BoxFit.fill,
                       height: 70,
+                      width: 100,
                     ),
               const SizedBox(
                 height: 20,
               ),
-              Text(deal.description.toString()),
+              LocalStorage.language == 'Arabic'
+                  ? Text(deal.arabicDescription.toString())
+                  : Text(deal.description.toString()),
               const SizedBox(
                 height: 20,
               ),
@@ -61,7 +68,9 @@ Future codeDailog(context, DealsModel deal) {
                         SizedBox(
                           width: 50,
                           height: 40,
-                          child: copyBtnIcon(),
+                          child: copyBtnIcon(
+                            coupon: deal.coupon,
+                          ),
                         ),
                       ],
                     ),
@@ -78,9 +87,8 @@ Future codeDailog(context, DealsModel deal) {
 }
 
 class copyBtnIcon extends StatefulWidget {
-  const copyBtnIcon({
-    super.key,
-  });
+  copyBtnIcon({super.key, this.coupon});
+  var coupon;
 
   @override
   State<copyBtnIcon> createState() => _copyBtnIconState();
@@ -104,7 +112,7 @@ class _copyBtnIconState extends State<copyBtnIcon> {
         onPressed: () async {
           c.reset = true;
           c.update();
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text(
               "Code Coppied Succesfully",
               style: TextStyle(color: Colors.white),
@@ -112,7 +120,7 @@ class _copyBtnIconState extends State<copyBtnIcon> {
             backgroundColor: Colors.green,
           ));
           await Clipboard.setData(
-              ClipboardData(text: "deal.coupon.toString()hhhhhhhhhh"));
+              ClipboardData(text: widget.coupon.toString()));
         },
       );
     });

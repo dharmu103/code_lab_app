@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/models/deals_model.dart';
+import 'package:code_lab/models/user_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,12 @@ class RemoteService {
   static const String no_auth = "/app/no-auth";
   static const headers = {'Content-Type': 'application/json'};
   String country = "UAE";
+
+  static final auth_headers = {
+    'Content-Type': 'application/json',
+    'token':
+        'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ2NThhODhiYWQzZmUxNmMxZTY2ZTM5IiwiaWF0IjoxNjg1MTYzNDcwLCJleHAiOjE2ODg3NjM0NzAsImF1ZCI6Imh0dHA6Ly9teXNvZnRjb3JwLmluIiwiaXNzIjoiTXlzb2Z0IGNvcnAiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.KwosC2WVsWQ8ZblECy_x5UZ2OmAOZa5MIpmnARikfnFgGCssXEGmbe9NDInhQBncjc8xByy7VHHA0VL22Lz6uqwhJVlGofiy5z5eEyifTU0m5uyjp54DJ1GXPDM5Qik3zFgRgWsjiEjw7o0KvRgumKaq2HfVbBdhk56PtgWFfocWnytq9GLFIk5z0LuRcjAHM-VpjYA5SVh1pu1ejqAHr-eJjFiCVRYTWL3USQAQi3DcAuetuwqqOsY9qf_Whs4OvXCEpD7JXjp8U8MOwUImUBQuQ-qBkwt49iK6lOLeKyjCI6xyHPuAhgF1pbP4MlWcs48MB-2VJBw3hXdGvwWkww'
+  };
 // http://54.159.201.11:3000/app/no-auth/home?country=UAE
   static Future<String?> signupWithEmailandPassword(
       Map<String, String> map) async {
@@ -56,11 +63,26 @@ class RemoteService {
     var resp = jsonDecode(res.body);
 
     if (res.statusCode == 200) {
-      print(res.statusCode);
-      print(res.body);
+      // print(res.statusCode);
+      // print(res.body);
       return StoreList.fromJson(resp);
     }
     return null;
+  }
+
+  static Future getProfile() async {
+    http.Response res = await http.get(
+        headers: auth_headers,
+        // Uri.parse(BASE_URL + no_auth + "/home?country=$country"),
+        Uri.parse("http://54.159.201.11:3000/app/auth/profile"));
+
+    var resp = jsonDecode(res.body);
+    print(res.statusCode);
+    print(res.body);
+    if (res.statusCode == 200) {
+      return res.body;
+    }
+    return jsonDecode(res.body)["message"];
   }
 
   static Future<DealsList?> fatchDeals(String country) async {
@@ -71,8 +93,8 @@ class RemoteService {
     var resp = jsonDecode(res.body);
 
     if (res.statusCode == 200) {
-      print(res.statusCode);
-      print(res.body);
+      // print(res.statusCode);
+      // print(res.body);
       return DealsList.fromJson(resp);
     }
     return null;

@@ -8,6 +8,7 @@ import 'package:code_lab/widgets/cards/card_2.dart';
 import 'package:code_lab/widgets/search_box_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../widgets/cards/card_3.dart';
 
@@ -29,11 +30,11 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   searchBox(),
 
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                     child: Row(
                       children: [
-                        Text("Top Stores",
+                        Text("top_stores".tr,
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold)),
                       ],
@@ -42,15 +43,43 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(
                     height: Get.width * 0.3 - 8,
                     child: GetBuilder<HomeController>(builder: (_) {
-                      if (_.stores!.message != "Success") {
-                        return Container(
-                            // child: Text("data"),
-                            );
+                      if (_.stores!.message != "Success" &&
+                          _.stores!.stores == null) {
+                        ListView.builder(
+                            shrinkWrap: true,
+                            physics: const ScrollPhysics(),
+                            itemCount: 5,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: ((context, index) {
+                              if (index == 0) {
+                                return Container(
+                                  margin: const EdgeInsets.only(left: 8.0),
+                                  child: Shimmer.fromColors(
+                                      highlightColor: Colors.grey.shade100,
+                                      baseColor: Colors.grey.shade100,
+                                      child: card1("logo")),
+                                );
+                              }
+                              if (index == 9) {
+                                return Container(
+                                  margin: const EdgeInsets.only(right: 18.0),
+                                  child: Shimmer.fromColors(
+                                      highlightColor: Colors.grey.shade100,
+                                      baseColor: Colors.grey.shade100,
+                                      child: card1("logo")),
+                                );
+                              }
+                              return Shimmer.fromColors(
+                                  highlightColor: Colors.grey.shade100,
+                                  baseColor: Colors.grey.shade100,
+                                  child: card1("logo"));
+                            }));
                       }
+
                       return ListView.builder(
                           shrinkWrap: true,
                           physics: const ScrollPhysics(),
-                          itemCount: _.stores!.stores!.length,
+                          itemCount: _.stores!.stores?.length ?? 0,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: ((context, index) {
                             if (_.stores!.stores!.length <= index) {
@@ -100,7 +129,7 @@ class HomeScreen extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(" Onboard Hear"),
+                              Text("onboard_here".tr),
                               const SizedBox(
                                 height: 8,
                               ),
@@ -109,7 +138,7 @@ class HomeScreen extends StatelessWidget {
                                   Get.toNamed(Routes.LOGIN);
                                 },
                                 child: Text(
-                                  "Login / Signup",
+                                  "login".tr + " / " + 'signup'.tr,
                                   style: TextStyle(
                                       fontSize: 18, color: primaryColor),
                                 ),
@@ -148,11 +177,11 @@ class HomeScreen extends StatelessWidget {
                       height: 20,
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                     child: Row(
                       children: [
-                        Text("Top Coupons and Deals",
+                        Text("top_coupons_and_deals".tr,
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold)),
                       ],
@@ -162,9 +191,26 @@ class HomeScreen extends StatelessWidget {
                     height: Get.width * 0.6 + 10,
                     child: GetBuilder<HomeController>(builder: (_) {
                       if (_.stores!.message != "Success") {
-                        return Container(
-                          child: Text("data"),
-                        );
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            physics: const ScrollPhysics(),
+                            itemCount: 10,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: ((context, index) {
+                              if (index == 0) {
+                                return Container(
+                                  margin: const EdgeInsets.only(left: 8.0),
+                                  child: democard3(context),
+                                );
+                              }
+                              if (index == 9) {
+                                return Container(
+                                  margin: const EdgeInsets.only(right: 18.0),
+                                  child: democard3(context),
+                                );
+                              }
+                              return democard3(context);
+                            }));
                       }
                       return ListView.builder(
                           shrinkWrap: true,

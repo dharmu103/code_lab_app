@@ -29,22 +29,22 @@ class BrandsScreen extends StatelessWidget {
                     const SizedBox(
                       height: 86,
                     ),
-                    SizedBox(
-                      height: 50,
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const ScrollPhysics(),
-                          itemCount: 10,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: ((context, index) {
-                            if (index == 0) {
-                              return CustomChips();
-                            }
+                    // SizedBox(
+                    //   height: 50,
+                    //   child: ListView.builder(
+                    //       shrinkWrap: true,
+                    //       physics: const ScrollPhysics(),
+                    //       itemCount: 10,
+                    //       scrollDirection: Axis.horizontal,
+                    //       itemBuilder: ((context, index) {
+                    //         if (index == 0) {
+                    //           return CustomChips();
+                    //         }
 
-                            return GestureDetector(
-                                onTap: () {}, child: const CustomChips());
-                          })),
-                    ),
+                    //         return GestureDetector(
+                    //             onTap: () {}, child: const CustomChips());
+                    //       })),
+                    // ),
                     const SizedBox(
                       height: 10,
                     ),

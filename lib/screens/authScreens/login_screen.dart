@@ -27,14 +27,14 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(
                   height: 50,
                 ),
-                const Text(
-                  "Login to your\nAccount",
+                Text(
+                  "login_to_your_account".tr,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 50,
                 ),
-                textfields(controller.emailTextController, "Email", (v) {
+                textfields(controller.emailTextController, "email_id".tr, (v) {
                   return v.trim().toString().isEmail
                       ? null
                       : "Please enter valid email.";
@@ -42,7 +42,8 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(
                   height: 25,
                 ),
-                textfields(controller.passwordTextController, "Password", (v) {
+                textfields(controller.passwordTextController, "password".tr,
+                    (v) {
                   if (v.toString().isNotEmpty) {
                     return null;
                   }
@@ -53,7 +54,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 GetBuilder<LoginController>(builder: (_) {
                   return PrimaryButton(
-                      text: "Login",
+                      text: "login".tr,
                       state: controller.btnstate,
                       onpress: () async {
                         // print("object");
@@ -100,7 +101,7 @@ class LoginScreen extends StatelessWidget {
                           child: Image.asset("assets/images/googleicon.png"),
                         ),
                         Spacer(),
-                        const Text("Login with google"),
+                        Text("login_with_google".tr),
                         Spacer(),
                         Spacer()
                       ],
@@ -112,13 +113,13 @@ class LoginScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't have an account?"),
+                    Text("dont_have_account".tr),
                     TextButton(
                         onPressed: () {
                           Get.toNamed(Routes.SIGNUP);
                         },
                         child: Text(
-                          "Signup",
+                          "signup".tr,
                           style: TextStyle(color: Colors.blue),
                         ))
                   ],

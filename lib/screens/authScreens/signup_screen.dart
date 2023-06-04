@@ -28,8 +28,8 @@ class SignupScreen extends StatelessWidget {
                 const SizedBox(
                   height: 50,
                 ),
-                const Text(
-                  "Create a new\nAccount",
+                Text(
+                  "create_a_new__account".tr,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -39,7 +39,7 @@ class SignupScreen extends StatelessWidget {
                   children: [
                     Expanded(
                         child: textfields(
-                            controller.fnameTextController, "First name", (v) {
+                            controller.fnameTextController, "f_name".tr, (v) {
                       v.trim().toString().isEmpty
                           ? null
                           : "Please enter valid first name.";
@@ -49,7 +49,7 @@ class SignupScreen extends StatelessWidget {
                     ),
                     Expanded(
                         child: textfields(
-                            controller.lnameTextController, "Last name", (v) {
+                            controller.lnameTextController, "l_name".tr, (v) {
                       v.trim().toString().isEmpty
                           ? null
                           : "Please enter valid last name.";
@@ -59,7 +59,7 @@ class SignupScreen extends StatelessWidget {
                 SizedBox(
                   height: 25,
                 ),
-                textfields(controller.emailTextController, "Email", (v) {
+                textfields(controller.emailTextController, "email_id".tr, (v) {
                   v.trim().toString().isEmail
                       ? null
                       : "Please enter valid email.";
@@ -67,7 +67,8 @@ class SignupScreen extends StatelessWidget {
                 const SizedBox(
                   height: 25,
                 ),
-                textfields(controller.passwordTextController, "Password", (v) {
+                textfields(controller.passwordTextController, "password".tr,
+                    (v) {
                   v.trim().toString().isEmpty
                       ? null
                       : "Please enter valid password.";
@@ -76,7 +77,7 @@ class SignupScreen extends StatelessWidget {
                   height: 25,
                 ),
                 textfields(
-                    controller.cpasswordTextController, "Confirm-Password",
+                    controller.cpasswordTextController, "confirm_password".tr,
                     (v) {
                   v.trim().toString() == controller.passwordTextController.text
                       ? null
@@ -87,7 +88,7 @@ class SignupScreen extends StatelessWidget {
                 ),
                 GetBuilder<LoginController>(builder: (_) {
                   return PrimaryButton(
-                      text: "Signup",
+                      text: "signup".tr,
                       state: controller.btnstate,
                       onpress: () async {
                         if (formKey.currentState!.validate()) {
@@ -105,10 +106,10 @@ class SignupScreen extends StatelessWidget {
                 SizedBox(
                   height: 25,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("or"),
+                    Text("or".tr),
                   ],
                 ),
                 SizedBox(
@@ -133,7 +134,7 @@ class SignupScreen extends StatelessWidget {
                           child: Image.asset("assets/images/googleicon.png"),
                         ),
                         Spacer(),
-                        const Text("Create with google"),
+                        Text("create_with_google".tr),
                         Spacer(),
                         Spacer()
                       ],
@@ -145,13 +146,13 @@ class SignupScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Alread have an account?"),
+                    Text("already_have_account".tr),
                     TextButton(
                         onPressed: () {
                           Get.back();
                         },
                         child: Text(
-                          "Login",
+                          "login".tr,
                           style: TextStyle(color: Colors.blue),
                         ))
                   ],

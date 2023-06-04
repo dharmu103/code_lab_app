@@ -14,6 +14,13 @@ class LoginController extends GetxController {
   TextEditingController lnameTextController = TextEditingController();
   TextEditingController cpasswordTextController = TextEditingController();
 
+  @override
+  onInit() {
+    getProfile();
+
+    super.onInit();
+  }
+
   Future<String?> loginWithEmailPassword() async {
     btnstate = ButtonState.loading;
     update();
@@ -77,5 +84,15 @@ class LoginController extends GetxController {
     } else {
       return res['message'];
     }
+  }
+
+  Future<String> getProfile() async {
+    var res = await RemoteService.getProfile();
+    // if (res["status"] == 200) {
+    //   return "";
+    // } else {
+    //   return res['message'];
+    // }
+    return "";
   }
 }

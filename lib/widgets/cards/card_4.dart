@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/models/deals_model.dart';
 import 'package:code_lab/theme/colors.dart';
 import 'package:code_lab/widgets/buttons/get_code.dart';
@@ -66,17 +68,20 @@ Widget card4(context, DealsModel deal) {
                 height: 70,
                 color: Colors.grey.shade200,
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.all(0),
                   child: SizedBox(
                       width: 70,
                       height: 70,
                       child: deal.image == null
                           ? Image.asset("assets/images/no-image.png")
-                          : Image.network(
-                              deal.image.toString(),
+                          : CachedNetworkImage(
+                              imageUrl: deal.image.toString(),
                               fit: BoxFit.fill,
                             )),
+                  // : Image.network(
+                  //     deal.image.toString(),
+                  //     fit: BoxFit.fill,
+                  //   )),
                   // child:Image.network(deal.),
                 ),
               ),
@@ -98,7 +103,9 @@ Widget card4(context, DealsModel deal) {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            child: Text(deal.description.toString()),
+            child: LocalStorage.language == 'Arabic'
+                ? Text(deal.arabicDescription.toString())
+                : Text(deal.description.toString()),
           ),
           // Container(
           //     width: Get.width,
@@ -126,8 +133,8 @@ Widget card4(context, DealsModel deal) {
                   color: Colors.grey.shade100,
                   borderRadius: BorderRadius.circular(24),
                 ),
-                child: const Text(
-                  "USED 13125 TIMES",
+                child: Text(
+                  'used'.tr + ' ' + '13125' + ' ' + 'times'.tr,
                   style: TextStyle(color: Colors.indigo),
                 ),
               ),
@@ -142,7 +149,7 @@ Widget card4(context, DealsModel deal) {
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Text(
-                  "LAST USE 6 MIN AGO",
+                  "last_used".tr + " " + '6' + " " + "min_ago".tr,
                   style: TextStyle(color: kGreen),
                 ),
               ),
@@ -162,9 +169,12 @@ Widget card4(context, DealsModel deal) {
                   onPressed: _launchUrl,
                   child: Container(
                     width: 100,
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [Icon(CupertinoIcons.share), Text("Shop Now")],
+                      children: [
+                        Icon(CupertinoIcons.share),
+                        Text("shop_now".tr)
+                      ],
                     ),
                   )),
               const Spacer(),
