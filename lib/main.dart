@@ -18,7 +18,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Code Lab',
-      theme: appThemeData,
+      themeMode: ThemeMode.system,
+      theme: ThemeDataOfApp().lightTheme,
+      darkTheme: ThemeDataOfApp().darkTheme ,
       getPages: AppPages.pages,
       translations: Messages(),
       locale: const Locale('en', 'US'),

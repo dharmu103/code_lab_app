@@ -1,3 +1,4 @@
+import 'package:code_lab/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,7 +9,7 @@ Widget searchBox() {
       height: 50,
       width: Get.width - 36,
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: kWhite,
           borderRadius: BorderRadius.circular(24),
           boxShadow: const [
             BoxShadow(color: Colors.grey, blurRadius: 0.1, spreadRadius: 0.01)

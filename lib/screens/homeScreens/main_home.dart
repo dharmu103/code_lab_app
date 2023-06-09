@@ -27,7 +27,6 @@ class _MainHomeState extends State<MainHome> {
     final controller = Get.put(HomeController());
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
-            selectedItemColor: primaryColor,
             currentIndex: currentIndex,
             onTap: (value) {
               setState(() {

@@ -53,7 +53,7 @@ class _CopyCodeState extends State<CopyCode> {
   @override
   Widget build(BuildContext context) {
     const textStyle = TextStyle(
-      color: Colors.white,
+      // color: Colors.white,
       fontWeight: FontWeight.bold,
     );
     if (selected) {
@@ -78,8 +78,7 @@ class _CopyCodeState extends State<CopyCode> {
     }
 
     return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            backgroundColor: primaryColor, foregroundColor: kWhite),
+        style: ElevatedButton.styleFrom(),
         child: AutoSizeText(
           "copy_code".tr,
           maxLines: 1,
@@ -88,7 +87,7 @@ class _CopyCodeState extends State<CopyCode> {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
               "code_copied_successfully".tr,
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(),
             ),
             backgroundColor: Colors.green,
           ));

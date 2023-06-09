@@ -21,7 +21,7 @@ Widget card3(context, DealsModel deal) {
     child: Container(
       width: Get.width * 0.4 - 18,
       decoration: BoxDecoration(
-          color: Colors.white,
+          // color: Colors.white,
           borderRadius: BorderRadius.circular(14),
           boxShadow: const [
             BoxShadow(color: Colors.grey, blurRadius: 0.1, spreadRadius: 0.01)

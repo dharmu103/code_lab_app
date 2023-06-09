@@ -1,5 +1,4 @@
 import 'package:code_lab/controllers/home_controller.dart';
-import 'package:code_lab/controllers/login_controller.dart';
 import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/routes/pages.dart';
 import 'package:code_lab/theme/colors.dart';
@@ -17,8 +16,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(HomeController());
-    final pref = Get.put(LocalStorage());
+    // final controller = Get.put(HomeController());
+    // final pref = Get.put(LocalStorage());
     return SafeArea(
       child: Scaffold(
           body: Stack(
@@ -31,11 +30,12 @@ class HomeScreen extends StatelessWidget {
                   searchBox(),
 
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 18, vertical: 10),
                     child: Row(
                       children: [
                         Text("top_stores".tr,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold)),
                       ],
                     ),
@@ -140,7 +140,8 @@ class HomeScreen extends StatelessWidget {
                                 child: Text(
                                   "login".tr + " / " + 'signup'.tr,
                                   style: TextStyle(
-                                      fontSize: 18, color: primaryColor),
+                                      fontSize: 18,
+                                      color: ThemeData.light().primaryColor),
                                 ),
                               )
                             ],
@@ -178,11 +179,12 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 18, vertical: 10),
                     child: Row(
                       children: [
                         Text("top_coupons_and_deals".tr,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold)),
                       ],
                     ),

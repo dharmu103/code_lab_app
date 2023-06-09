@@ -1,14 +1,8 @@
 import 'package:code_lab/controllers/home_controller.dart';
-import 'package:code_lab/theme/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../widgets/cards/card_1.dart';
-import '../../widgets/cards/card_2.dart';
-import '../../widgets/cards/card_3.dart';
 import '../../widgets/cards/card_4.dart';
-import '../../widgets/chips/chips.dart';
 import '../../widgets/search_box_widget.dart';
 
 class BrandsScreen extends StatelessWidget {

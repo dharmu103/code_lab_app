@@ -45,7 +45,7 @@ Widget card1(logo) {
           //       logo,
           //     ),
           //     fit: BoxFit.fill),
-          color: kWhite,
+          // color: kWhite,
           borderRadius: BorderRadius.circular(14),
           boxShadow: const [
             BoxShadow(color: Colors.grey, blurRadius: 0.1, spreadRadius: 0.01)
