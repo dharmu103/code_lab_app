@@ -1,4 +1,6 @@
 import 'package:code_lab/controllers/home_controller.dart';
+import 'package:code_lab/screens/details/details_screen.dart';
+import 'package:code_lab/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -47,20 +49,25 @@ class BrandsScreen extends StatelessWidget {
                       child: ListView.builder(
                           shrinkWrap: true,
                           physics: const ScrollPhysics(),
-                          itemCount: controller.stores!.stores!.length,
+                          itemCount: controller.brands!.brands?.length ?? 0,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: ((context, index) {
                             if (index == 0) {
                               return Container(
                                   margin: const EdgeInsets.only(left: 8.0),
                                   child: GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Get.to(DetailsScreen(),
+                                          arguments: controller
+                                              .brands!.brands?[index]);
+                                    },
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: CircleAvatar(
+                                        backgroundColor: kWhite,
                                         radius: 50,
                                         backgroundImage: NetworkImage(
-                                          controller.stores!.stores![index].logo
+                                          controller.brands!.brands![index].logo
                                               .toString(),
                                         ),
                                       ),
@@ -73,17 +80,22 @@ class BrandsScreen extends StatelessWidget {
                                   child: Container(
                                       margin: const EdgeInsets.only(left: 8.0),
                                       child: GestureDetector(
-                                        onTap: () {},
+                                        onTap: () {
+                                          Get.to(DetailsScreen(),
+                                              arguments: controller
+                                                  .brands!.brands?[index]);
+                                        },
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: CircleAvatar(
+                                            backgroundColor: kWhite,
                                             radius: 50,
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(18.0),
                                               child: Image.network(
                                                 controller
-                                                    .stores!.stores![index].logo
+                                                    .brands!.brands![index].logo
                                                     .toString(),
                                                 fit: BoxFit.cover,
                                               ),
@@ -95,13 +107,18 @@ class BrandsScreen extends StatelessWidget {
                             return Container(
                                 // margin: const EdgeInsets.only(left: 8.0),
                                 child: GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Get.to(DetailsScreen(),
+                                    arguments:
+                                        controller.brands!.brands?[index]);
+                              },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: CircleAvatar(
+                                  backgroundColor: kWhite,
                                   radius: 50,
                                   backgroundImage: NetworkImage(
-                                    controller.stores!.stores![index].logo
+                                    controller.brands!.brands![index].logo
                                         .toString(),
                                   ),
                                 ),
@@ -116,11 +133,11 @@ class BrandsScreen extends StatelessWidget {
                       child: ListView.builder(
                           shrinkWrap: true,
                           physics: const ScrollPhysics(),
-                          itemCount: controller.stores!.deals!.length,
+                          itemCount: controller.homeModel!.deals?.length ?? 0,
                           scrollDirection: Axis.vertical,
                           itemBuilder: ((context, index) {
                             return card4(
-                                context, controller.stores!.deals![index]);
+                                context, controller.homeModel!.deals![index]);
                           })),
                     ),
                     const SizedBox(

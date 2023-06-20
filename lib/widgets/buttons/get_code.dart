@@ -60,7 +60,7 @@ class _CopyCodeState extends State<CopyCode> {
       return DottedBorder(
           borderType: BorderType.RRect,
           dashPattern: [5, 4],
-          radius: Radius.circular(24),
+          radius: const Radius.circular(24),
           child: Container(
             height: 40,
             child: Center(
@@ -68,17 +68,18 @@ class _CopyCodeState extends State<CopyCode> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(widget.text!.toUpperCase(), textAlign: TextAlign.center),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Icon(Icons.check, color: Colors.green)
+                const Icon(Icons.check, color: Colors.green)
               ],
             )),
           ));
     }
 
     return ElevatedButton(
-        style: ElevatedButton.styleFrom(),
+        style: ElevatedButton.styleFrom(
+            backgroundColor: primaryColor, foregroundColor: kWhite),
         child: AutoSizeText(
           "copy_code".tr,
           maxLines: 1,

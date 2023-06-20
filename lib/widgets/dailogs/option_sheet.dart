@@ -11,7 +11,7 @@ optionSheet(context, list, data) {
           padding: EdgeInsets.all(24),
           child: Column(
             children: List.generate(
-                3,
+                list.length,
                 (index) => ListTile(
                     trailing: GetBuilder<LocalStorage>(builder: (_) {
                       return Checkbox(

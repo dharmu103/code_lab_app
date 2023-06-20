@@ -1,17 +1,27 @@
-import 'package:code_lab/models/store_model.dart';
-import 'package:json_annotation/json_annotation.dart';
-
 import 'deals_model.dart';
-part 'deals_list.g.dart';
 
-@JsonSerializable()
 class DealsList {
-  List<DealsModel>? dealsList;
+  String? message;
+  List<Deal>? deal;
 
-  DealsList({this.dealsList});
+  DealsList({this.message, this.deal});
 
-  factory DealsList.fromJson(Map<String, dynamic> json) =>
-      _$DealsListFromJson(json);
+  DealsList.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
+    if (json['deal'] != null) {
+      deal = <Deal>[];
+      json['deal'].forEach((v) {
+        deal!.add(Deal.fromJson(v));
+      });
+    }
+  }
 
-  Map<String, dynamic> toJson() => _$DealsListToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    if (deal != null) {
+      data['deal'] = deal!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }

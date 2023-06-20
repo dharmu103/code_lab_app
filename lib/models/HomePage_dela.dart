@@ -1,4 +1,4 @@
-class Deal {
+class HomeDeals {
   String? sId;
   String? store;
   String? name;
@@ -12,7 +12,7 @@ class Deal {
   int? iV;
   String? image;
 
-  Deal(
+  HomeDeals(
       {this.sId,
       this.store,
       this.name,
@@ -26,7 +26,7 @@ class Deal {
       this.iV,
       this.image});
 
-  Deal.fromJson(Map<String, dynamic> json) {
+  HomeDeals.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     store = json['store'];
     name = json['name'];
@@ -35,33 +35,26 @@ class Deal {
     descriptionArabic = json['description_arabic'];
     coupon = json['coupon'];
     link = json['link'];
-    // if (json['tags'] != null) {
-    //   tags = <Null>[];
-    //   json['tags'].forEach((v) {
-    //     tags!.add(Null.fromJson(v));
-    //   });
-    // }
+
     index = json['index'];
     iV = json['__v'];
     image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
-    data['store'] = store;
-    data['name'] = name;
-    data['name_arabic'] = nameArabic;
-    data['description'] = description;
-    data['description_arabic'] = descriptionArabic;
-    data['coupon'] = coupon;
-    data['link'] = link;
-    // if (tags != null) {
-    //   data['tags'] = tags!.map((v) => v!.toJson()).toList();
-    // }
-    data['index'] = index;
-    data['__v'] = iV;
-    data['image'] = image;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['store'] = this.store;
+    data['name'] = this.name;
+    data['name_arabic'] = this.nameArabic;
+    data['description'] = this.description;
+    data['description_arabic'] = this.descriptionArabic;
+    data['coupon'] = this.coupon;
+    data['link'] = this.link;
+
+    data['index'] = this.index;
+    data['__v'] = this.iV;
+    data['image'] = this.image;
     return data;
   }
 }

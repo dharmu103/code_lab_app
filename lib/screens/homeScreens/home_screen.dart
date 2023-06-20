@@ -1,6 +1,7 @@
 import 'package:code_lab/controllers/home_controller.dart';
 import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/routes/pages.dart';
+import 'package:code_lab/services/remote_services.dart';
 import 'package:code_lab/theme/colors.dart';
 import 'package:code_lab/widgets/cards/card_1.dart';
 import 'package:code_lab/widgets/cards/card_2.dart';
@@ -43,61 +44,64 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(
                     height: Get.width * 0.3 - 8,
                     child: GetBuilder<HomeController>(builder: (_) {
-                      if (_.stores!.message != "Success" &&
-                          _.stores!.stores == null) {
-                        ListView.builder(
-                            shrinkWrap: true,
-                            physics: const ScrollPhysics(),
-                            itemCount: 5,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: ((context, index) {
-                              if (index == 0) {
-                                return Container(
-                                  margin: const EdgeInsets.only(left: 8.0),
-                                  child: Shimmer.fromColors(
-                                      highlightColor: Colors.grey.shade100,
-                                      baseColor: Colors.grey.shade100,
-                                      child: card1("logo")),
-                                );
-                              }
-                              if (index == 9) {
-                                return Container(
-                                  margin: const EdgeInsets.only(right: 18.0),
-                                  child: Shimmer.fromColors(
-                                      highlightColor: Colors.grey.shade100,
-                                      baseColor: Colors.grey.shade100,
-                                      child: card1("logo")),
-                                );
-                              }
-                              return Shimmer.fromColors(
-                                  highlightColor: Colors.grey.shade100,
-                                  baseColor: Colors.grey.shade100,
-                                  child: card1("logo"));
-                            }));
+                      if (_.brands!.message != "Success" &&
+                          _.brands!.brands == null) {
+                        // ListView.builder(
+                        //     shrinkWrap: true,
+                        //     physics: const ScrollPhysics(),
+                        //     itemCount: 5,
+                        //     scrollDirection: Axis.horizontal,
+                        //     itemBuilder: ((context, index) {
+                        //       if (index == 0) {
+                        //         return Container(
+                        //           margin: const EdgeInsets.only(left: 8.0),
+                        //           child: Shimmer.fromColors(
+                        //               highlightColor: Colors.grey.shade100,
+                        //               baseColor: Colors.grey.shade100,
+                        //               child: card1(_.brands!.brands![index])),
+                        //         );
+                        //       }
+                        //       if (index == 9) {
+                        //         return Container(
+                        //           margin: const EdgeInsets.only(right: 18.0),
+                        //           child: Shimmer.fromColors(
+                        //               highlightColor: Colors.grey.shade100,
+                        //               baseColor: Colors.grey.shade100,
+                        //               child: Container()),
+                        //         );
+                        //       }
+                        //       return Shimmer.fromColors(
+                        //           highlightColor: Colors.grey.shade100,
+                        //           baseColor: Colors.grey.shade100,
+                        //           child: Container());
+                        //     }));
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
                       }
 
                       return ListView.builder(
                           shrinkWrap: true,
                           physics: const ScrollPhysics(),
-                          itemCount: _.stores!.stores?.length ?? 0,
+                          itemCount: _.brands!.brands?.length ?? 0,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: ((context, index) {
-                            if (_.stores!.stores!.length <= index) {
+                            if (_.brands!.brands!.length <= index) {
                               return Container();
                             }
                             if (index == 0) {
                               return Container(
                                 margin: const EdgeInsets.only(left: 8.0),
-                                child: card1(_.stores!.stores![index].logo),
+                                child: card1(_.brands!.brands![index]),
                               );
                             }
                             if (index == 9) {
                               return Container(
                                 margin: const EdgeInsets.only(right: 18.0),
-                                child: card1(_.stores!.stores![index].logo),
+                                child: card1(_.brands!.brands![index]),
                               );
                             }
-                            return card1(_.stores!.stores![index].logo);
+                            return card1(_.brands!.brands![index]);
                           }));
                     }),
                   ),
@@ -106,7 +110,12 @@ class HomeScreen extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: card2(),
+                    child: FutureBuilder(
+                        future: getBanner(),
+                        builder: (c, s) {
+                          if (s.hasData) return card2(s.data);
+                          return democard2();
+                        }),
                   ),
                   const SizedBox(
                     height: 10,
@@ -192,47 +201,52 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(
                     height: Get.width * 0.6 + 10,
                     child: GetBuilder<HomeController>(builder: (_) {
-                      if (_.stores!.message != "Success") {
-                        return ListView.builder(
-                            shrinkWrap: true,
-                            physics: const ScrollPhysics(),
-                            itemCount: 10,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: ((context, index) {
-                              if (index == 0) {
-                                return Container(
-                                  margin: const EdgeInsets.only(left: 8.0),
-                                  child: democard3(context),
-                                );
-                              }
-                              if (index == 9) {
-                                return Container(
-                                  margin: const EdgeInsets.only(right: 18.0),
-                                  child: democard3(context),
-                                );
-                              }
-                              return democard3(context);
-                            }));
+                      if (_.brands!.message != "Success") {
+                        // return ListView.builder(
+                        //     shrinkWrap: true,
+                        //     physics: const ScrollPhysics(),
+                        //     itemCount: 10,
+                        //     scrollDirection: Axis.horizontal,
+                        //     itemBuilder: ((context, index) {
+                        //       if (index == 0) {
+                        //         return Container(
+                        //           margin: const EdgeInsets.only(left: 8.0),
+                        //           child: democard3(context),
+                        //         );
+                        //       }
+                        //       if (index == 9) {
+                        //         return Container(
+                        //           margin: const EdgeInsets.only(right: 18.0),
+                        //           child: democard3(context),
+                        //         );
+                        //       }
+                        //       return democard3(context);
+                        //     }));
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
                       }
                       return ListView.builder(
                           shrinkWrap: true,
                           physics: const ScrollPhysics(),
-                          itemCount: _.stores!.deals!.length,
+                          itemCount: _.homeModel?.deals?.length ?? 0,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: ((context, index) {
                             if (index == 0) {
                               return Container(
                                 margin: const EdgeInsets.only(left: 8.0),
-                                child: card3(context, _.stores!.deals![index]),
+                                child:
+                                    card3(context, _.homeModel!.deals![index]),
                               );
                             }
                             if (index == 9) {
                               return Container(
                                 margin: const EdgeInsets.only(right: 18.0),
-                                child: card3(context, _.stores!.deals![index]),
+                                child:
+                                    card3(context, _.homeModel!.deals![index]),
                               );
                             }
-                            return card3(context, _.stores!.deals![index]);
+                            return card3(context, _.homeModel!.deals![index]);
                           }));
                     }),
                   ),
@@ -248,4 +262,9 @@ class HomeScreen extends StatelessWidget {
       )),
     );
   }
+}
+
+getBanner() {
+  var res = RemoteService.getBanner();
+  return res;
 }

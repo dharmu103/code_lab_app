@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:code_lab/controllers/login_controller.dart';
 import 'package:code_lab/localStorage/pref.dart';
+import 'package:code_lab/models/user_model.dart';
 import 'package:code_lab/routes/pages.dart';
+import 'package:code_lab/services/remote_services.dart';
 import 'package:code_lab/widgets/dailogs/option_sheet.dart';
 import 'package:code_lab/widgets/dailogs/sheets.dart';
 import 'package:flutter/material.dart';
@@ -27,11 +32,11 @@ class ProfileScreen extends StatelessWidget {
         title: Text(
           "profile".tr,
         ),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: Icon(isDark ? LineAwesomeIcons.sun : LineAwesomeIcons.moon))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {},
+        //       icon: Icon(isDark ? LineAwesomeIcons.sun : LineAwesomeIcons.moon))
+        // ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -48,10 +53,22 @@ class ProfileScreen extends StatelessWidget {
                     SizedBox(
                       width: 120,
                       height: 120,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: const Image(
-                              image: AssetImage("assets/images/profile.png"))),
+                      child: GetBuilder<LoginController>(
+                        init: LoginController(),
+                        initState: (_) {},
+                        builder: (_) {
+                          return ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: RemoteService.user.profile?.profileImage ==
+                                      null
+                                  ? Image(
+                                      image: AssetImage(
+                                          "assets/images/profile.png"))
+                                  : Image(
+                                      image: CachedNetworkImageProvider(
+                                          _.user.profile?.profileImage ?? "")));
+                        },
+                      ),
                     ),
                     Positioned(
                       bottom: 0,
@@ -64,15 +81,16 @@ class ProfileScreen extends StatelessWidget {
 
                             String response =
                                 await controller.uploadProfileImage({
-                              'image': selectedImage,
+                              'image': File(selectedImage!.path),
                             });
-
-                            if (response.isEmpty) {
+                            print(res);
+                            print(response);
+                            if (response == "Success") {
                               //done
                               Get.back();
                               selectedImage = null;
-
-                              // userProfileController.getUserDetails();
+                              controller
+                                  .getProfile(); // userProfileController.getUserDetails();
                               //  print("++++++++++++++++");
                               //   print(
                               //    _.userProfile.value.data!.profileImage!,
@@ -109,16 +127,21 @@ class ProfileScreen extends StatelessWidget {
                 if (LocalStorage.accessToken == "") {
                   return Container();
                 }
-                return const Text("Danial Sams",
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(RemoteService.user.profile?.firstName ?? " ",
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
+                  ],
+                );
               }),
               GetBuilder<LocalStorage>(builder: (_) {
                 if (LocalStorage.accessToken == "") {
                   return Container();
                 }
-                return const Text(
-                  "Danial Sams",
+                return Text(
+                  RemoteService.user.profile?.email ?? "",
                 );
               }),
               // Text("ProfileSubHeading",
@@ -161,7 +184,7 @@ class ProfileScreen extends StatelessWidget {
                   title: "country".tr,
                   icon: LineAwesomeIcons.confluence,
                   onPress: () {
-                    optionSheet(context, ["None", "UAE", "India"], 'country');
+                    optionSheet(context, ["UAE"], 'country');
                   }),
               ProfileMenuWidget(
                   title: "rate_us".tr,
@@ -201,6 +224,8 @@ class ProfileScreen extends StatelessWidget {
                                     await SharedPreferences.getInstance();
                                 pref.clear();
                                 Get.back();
+                                RemoteService.user.profile =
+                                    UserModel().profile;
                                 Get.snackbar("logout".tr, "successfully".tr,
                                     backgroundColor: Colors.red,
                                     colorText: kWhite);

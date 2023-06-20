@@ -1,31 +1,55 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'store_model.g.dart';
-
-@JsonSerializable()
-class StoreModel {
-  String? id;
+class Brands {
+  String? sId;
   String? country;
   String? name;
-  String? arabicName;
+  String? nameArabic;
   String? link;
-  String? logo;
+  List<Null>? tags;
   int? index;
-  List<String?>? tags;
+  int? iV;
+  String? logo;
 
-  StoreModel({
-    this.id,
-    this.country,
-    this.name,
-    this.arabicName,
-    this.link,
-    this.logo,
-    this.index,
-    this.tags,
-  });
+  Brands(
+      {this.sId,
+      this.country,
+      this.name,
+      this.nameArabic,
+      this.link,
+      this.tags,
+      this.index,
+      this.iV,
+      this.logo});
 
-  factory StoreModel.fromJson(Map<String, dynamic> json) =>
-      _$StoreModelFromJson(json);
+  Brands.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    country = json['country'];
+    name = json['name'];
+    nameArabic = json['name_arabic'];
+    link = json['link'];
+    // if (json['tags'] != null) {
+    //   tags = <Null>[];
+    //   json['tags'].forEach((v) {
+    //     tags!.add(new Null.fromJson(v));
+    //   });
+    // }
+    index = json['index'];
+    iV = json['__v'];
+    logo = json['logo'];
+  }
 
-  Map<String, dynamic> toJson() => _$StoreModelToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = sId;
+    data['country'] = country;
+    data['name'] = name;
+    data['name_arabic'] = nameArabic;
+    data['link'] = link;
+    // if (this.tags != null) {
+    //   data['tags'] = this.tags!.map((v) => v.toJson()).toList();
+    // }
+    data['index'] = index;
+    data['__v'] = iV;
+    data['logo'] = logo;
+    return data;
+  }
 }

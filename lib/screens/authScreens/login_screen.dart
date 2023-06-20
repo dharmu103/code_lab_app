@@ -29,7 +29,8 @@ class LoginScreen extends StatelessWidget {
                 ),
                 Text(
                   "login_to_your_account".tr,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 50,
@@ -62,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                           String? res =
                               await controller.loginWithEmailPassword();
                           if (res == "") {
-                            Get.toNamed(Routes.HOME);
+                            Get.offAndToNamed(Routes.HOME);
                           } else {
                             Get.snackbar("Login Failed", res.toString(),
                                 backgroundColor: Colors.red, colorText: kWhite);

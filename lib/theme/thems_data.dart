@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ThemeDataOfApp {
-  ThemeDataOfApp({
-    required Function() getTheme,
-  });
+  // ThemeDataOfApp({
+  //   required Function() getTheme,
+  // });
 
   ThemeData lightTheme = ThemeData.light().copyWith(
     useMaterial3: true,

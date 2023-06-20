@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:code_lab/localStorage/pref.dart';
+import 'package:code_lab/models/HomePage_dela.dart';
+import 'package:code_lab/models/deals_list.dart';
 import 'package:code_lab/models/deals_model.dart';
 import 'package:code_lab/theme/colors.dart';
 import 'package:code_lab/widgets/buttons/get_code.dart';
@@ -10,7 +12,7 @@ import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-Widget card4(context, DealsModel deal) {
+Widget card4(context, HomeDeals deal) {
   Future<void> _launchUrl() async {
     if (!await launchUrl(Uri.parse(deal.link.toString()),
         mode: LaunchMode.externalApplication)) {
@@ -104,7 +106,7 @@ Widget card4(context, DealsModel deal) {
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
             child: LocalStorage.language == 'Arabic'
-                ? Text(deal.arabicDescription.toString())
+                ? Text(deal.descriptionArabic.toString())
                 : Text(deal.description.toString()),
           ),
           // Container(

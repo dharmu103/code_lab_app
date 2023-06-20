@@ -5,14 +5,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocalStorage extends GetxController {
   static String? accessToken = '';
   static String? language = 'None';
-  static String? country = 'None';
+  static String? country = 'UAE';
 
   @override
   void onInit() {
     setAccessToken();
     setLanguageToken();
-    print(language);
-    print(country);
+
+    // print(country);
     super.onInit();
   }
 
@@ -23,7 +23,7 @@ class LocalStorage extends GetxController {
     } else {
       accessToken = "";
     }
-
+    // print(accessToken);
     update();
   }
 
@@ -51,7 +51,7 @@ class LocalStorage extends GetxController {
     if (pref.getString("country") != null) {
       country = pref.getString("country").toString();
     } else {
-      country = "None";
+      country = "UAE";
     }
 
     update();

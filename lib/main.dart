@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Code Lab',
       themeMode: ThemeMode.system,
       theme: ThemeDataOfApp().lightTheme,
-      darkTheme: ThemeDataOfApp().darkTheme ,
+      darkTheme: ThemeDataOfApp().darkTheme,
       getPages: AppPages.pages,
       translations: Messages(),
       locale: const Locale('en', 'US'),

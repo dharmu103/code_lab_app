@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:code_lab/controllers/home_controller.dart';
 import 'package:code_lab/localStorage/pref.dart';
+import 'package:code_lab/models/HomePage_dela.dart';
 import 'package:code_lab/models/deals_model.dart';
 import 'package:code_lab/theme/colors.dart';
 import 'package:code_lab/widgets/buttons/get_code.dart';
@@ -10,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 
-Widget card3(context, DealsModel deal) {
+Widget card3(context, HomeDeals deal) {
   final c = Get.find<HomeController>();
   return Padding(
     padding: const EdgeInsets.only(
@@ -21,7 +22,7 @@ Widget card3(context, DealsModel deal) {
     child: Container(
       width: Get.width * 0.4 - 18,
       decoration: BoxDecoration(
-          // color: Colors.white,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(14),
           boxShadow: const [
             BoxShadow(color: Colors.grey, blurRadius: 0.1, spreadRadius: 0.01)
@@ -78,7 +79,7 @@ Widget card3(context, DealsModel deal) {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: LocalStorage.language == "Arabic"
-                ? Text(deal.arabicDescription.toString())
+                ? Text(deal.descriptionArabic.toString())
                 : Text(deal.description.toString()),
           ),
           // Container(
