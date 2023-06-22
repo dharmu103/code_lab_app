@@ -4,6 +4,8 @@ Widget textfields(controller, hint, validator) {
   return TextFormField(
     controller: controller,
     validator: validator,
+    obscureText:
+        hint == 'Password' || hint == "Confirm-Password" ? true : false,
     decoration: InputDecoration(
         hintText: hint,
         filled: true,

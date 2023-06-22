@@ -30,7 +30,8 @@ class SignupScreen extends StatelessWidget {
                 ),
                 Text(
                   "create_a_new__account".tr,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 50,
@@ -44,7 +45,7 @@ class SignupScreen extends StatelessWidget {
                           ? null
                           : "Please enter valid first name.";
                     })),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     Expanded(
@@ -56,7 +57,7 @@ class SignupScreen extends StatelessWidget {
                     })),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 textfields(controller.emailTextController, "email_id".tr, (v) {
@@ -103,7 +104,7 @@ class SignupScreen extends StatelessWidget {
                         }
                       });
                 }),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 Row(
@@ -112,37 +113,37 @@ class SignupScreen extends StatelessWidget {
                     Text("or".tr),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 1),
-                  width: Get.width,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            side: const BorderSide(width: 0.1),
-                            borderRadius: BorderRadius.circular(12)),
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.blue),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Image.asset("assets/images/googleicon.png"),
-                        ),
-                        Spacer(),
-                        Text("create_with_google".tr),
-                        Spacer(),
-                        Spacer()
-                      ],
-                    ),
-                    onPressed: () {},
-                  ),
-                ),
-                Spacer(),
+                // Container(
+                //   padding: const EdgeInsets.symmetric(horizontal: 1),
+                //   width: Get.width,
+                //   height: 50,
+                //   child: ElevatedButton(
+                //     style: ElevatedButton.styleFrom(
+                //         elevation: 0,
+                //         shape: RoundedRectangleBorder(
+                //             side: const BorderSide(width: 0.1),
+                //             borderRadius: BorderRadius.circular(12)),
+                //         backgroundColor: Colors.white,
+                //         foregroundColor: Colors.blue),
+                //     child: Row(
+                //       children: [
+                //         Padding(
+                //           padding: const EdgeInsets.all(4.0),
+                //           child: Image.asset("assets/images/googleicon.png"),
+                //         ),
+                //         const Spacer(),
+                //         Text("create_with_google".tr),
+                //         const Spacer(),
+                //         const Spacer()
+                //       ],
+                //     ),
+                //     onPressed: () {},
+                //   ),
+                // ),
+                const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -153,7 +154,7 @@ class SignupScreen extends StatelessWidget {
                         },
                         child: Text(
                           "login".tr,
-                          style: TextStyle(color: Colors.blue),
+                          style: const TextStyle(color: Colors.blue),
                         ))
                   ],
                 )

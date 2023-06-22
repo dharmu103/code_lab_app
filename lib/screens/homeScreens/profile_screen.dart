@@ -6,15 +6,26 @@ import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/models/user_model.dart';
 import 'package:code_lab/routes/pages.dart';
 import 'package:code_lab/services/remote_services.dart';
+import 'package:code_lab/widgets/cards/card_4.dart';
 import 'package:code_lab/widgets/dailogs/option_sheet.dart';
 import 'package:code_lab/widgets/dailogs/sheets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../controllers/home_controller.dart';
 import '../../theme/colors.dart';
+
+Future<void> launchUrlProfilePage(url) async {
+  if (!await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)) {
+    print("object");
+    throw Exception('Could not launch $url');
+  }
+}
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -22,6 +33,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<LoginController>();
+
     CroppedFile? selectedImage;
     var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
@@ -61,7 +73,7 @@ class ProfileScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(100),
                               child: RemoteService.user.profile?.profileImage ==
                                       null
-                                  ? Image(
+                                  ? const Image(
                                       image: AssetImage(
                                           "assets/images/profile.png"))
                                   : Image(
@@ -162,7 +174,7 @@ class ProfileScreen extends StatelessWidget {
                               side: BorderSide.none,
                               shape: const StadiumBorder()),
                           child: Text("login".tr,
-                              style: TextStyle(color: Colors.white)),
+                              style: const TextStyle(color: Colors.white)),
                         ),
                       )
                     : Container(),
@@ -176,24 +188,46 @@ class ProfileScreen extends StatelessWidget {
                 title: "language".tr,
                 icon: LineAwesomeIcons.language,
                 onPress: () {
-                  optionSheet(
-                      context, ["None", "English", "Arabic"], 'language');
+                  optionSheet(context, ["English", "Arabic"], 'language');
+                },
+              ),
+              GetBuilder<HomeController>(
+                builder: (_) {
+                  return ProfileMenuWidget(
+                      title: "country".tr,
+                      icon: LineAwesomeIcons.confluence,
+                      onPress: () {
+                        print(_.countryList?.countries?.length);
+                        optionSheetCountry(
+                            context,
+                            _.countryList?.countries
+                                ?.map((e) => e.name)
+                                .toList(),
+                            'country');
+                      });
                 },
               ),
               ProfileMenuWidget(
-                  title: "country".tr,
-                  icon: LineAwesomeIcons.confluence,
-                  onPress: () {
-                    optionSheet(context, ["UAE"], 'country');
-                  }),
-              ProfileMenuWidget(
                   title: "rate_us".tr,
                   icon: LineAwesomeIcons.raised_fist,
-                  onPress: () {}),
-              ProfileMenuWidget(
-                  title: "refer_and_earn".tr,
-                  icon: LineAwesomeIcons.share,
-                  onPress: () {}),
+                  onPress: () {
+                    launchUrlProfilePage(
+                        "https://play.google.com/store/apps/details?id=com.ludo.king&hl=en-IN");
+                  }),
+              GetBuilder<HomeController>(
+                init: HomeController(),
+                initState: (_) {},
+                builder: (_) {
+                  return ProfileMenuWidget(
+                      title: "refer_and_earn".tr,
+                      icon: LineAwesomeIcons.share,
+                      onPress: () {
+                        Share.share(
+                            'Invite your contect ${_.referDetail?.referraldetails?.referralcode}, link - ${_.referDetail?.referraldetails?.referrallink}  ',
+                            subject: 'Look what I made!');
+                      });
+                },
+              ),
               const Divider(),
               const SizedBox(height: 10),
               // ProfileMenuWidget(
@@ -213,7 +247,7 @@ class ProfileScreen extends StatelessWidget {
                       Get.defaultDialog(
                           title: "logout".tr,
                           content: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 15.0),
+                            padding: const EdgeInsets.symmetric(vertical: 15.0),
                             child: Text("are_you_sure".tr),
                           ),
                           cancel: ElevatedButton(

@@ -33,8 +33,6 @@ class _MainHomeState extends State<MainHome> {
               setState(() {
                 currentIndex = value;
               });
-              print(value);
-              print(currentIndex);
             },
             items: [
               BottomNavigationBarItem(

@@ -5,11 +5,13 @@ import 'package:code_lab/models/HomePage_dela.dart';
 import 'package:code_lab/models/deals_model.dart';
 import 'package:code_lab/theme/colors.dart';
 import 'package:code_lab/widgets/buttons/get_code.dart';
+import 'package:code_lab/widgets/cards/card_4.dart';
 import 'package:code_lab/widgets/dailogs/code_dailog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Widget card3(context, HomeDeals deal) {
   final c = Get.find<HomeController>();
@@ -89,9 +91,14 @@ Widget card3(context, HomeDeals deal) {
           Container(
               width: 100,
               child: GetCode(
+                text: deal.coupon == "" ? 'Get Deal' : 'Get Code',
                 onpress: () {
-                  c.reset = false;
-                  codeDailog(context, deal);
+                  if (deal.coupon == "") {
+                    launchUrlDeal(deal);
+                  } else {
+                    c.reset = false;
+                    codeDailog(context, deal);
+                  }
                 },
               )),
           const SizedBox(

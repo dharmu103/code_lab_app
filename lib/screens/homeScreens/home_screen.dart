@@ -75,11 +75,13 @@ class HomeScreen extends StatelessWidget {
                         //           baseColor: Colors.grey.shade100,
                         //           child: Container());
                         //     }));
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       }
-
+                      if (_.brands!.brands!.isEmpty) {
+                        return const Center(child: Text("No Store Found"));
+                      }
                       return ListView.builder(
                           shrinkWrap: true,
                           physics: const ScrollPhysics(),
@@ -222,9 +224,12 @@ class HomeScreen extends StatelessWidget {
                         //       }
                         //       return democard3(context);
                         //     }));
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
+                      }
+                      if (_.brands!.brands!.isEmpty) {
+                        return const Center(child: Text("No Deals Found"));
                       }
                       return ListView.builder(
                           shrinkWrap: true,

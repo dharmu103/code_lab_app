@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/models/Home_Model.dart';
-import 'package:code_lab/models/deals_model.dart';
+import 'package:code_lab/models/country_list.dart';
+import 'package:code_lab/models/refer_details.dart';
 import 'package:code_lab/models/user_model.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,29 +14,29 @@ import '../models/store_model.dart';
 
 class RemoteService {
   static late String token;
-  static const String BASE_URL = "http://54.159.201.11:3000";
-  static const String no_auth = "/app/no-auth";
+  static const String baseUrl = "http://54.159.201.11:3000/app";
+  static const String noAuth = "no-auth";
   static const headers = {'Content-Type': 'application/json'};
-  String country = "UAE";
+
   static UserModel user = UserModel();
 
-  static Map<String, String> auth_headers = {
+  static Map<String, String> authHeader = {
     'Content-Type': 'application/json',
     'token': token
   };
 
   static initiatizeAuthHeader() async {
-    auth_headers = {
+    authHeader = {
       "Content-type": "application/json; charset=utf-8",
       "token": token,
     };
   }
 
-// http://54.159.201.11:3000/app/no-auth/home?country=UAE
+// $baseUrl/no-auth/home?country=UAE
   static Future<String?> signupWithEmailandPassword(
       Map<String, String> map) async {
     http.Response res = await http.post(
-        Uri.parse(BASE_URL + no_auth + "/signup"),
+        Uri.parse(baseUrl + '/' + noAuth + "/signup"),
         headers: headers,
         body: jsonEncode(map));
 
@@ -55,7 +54,7 @@ class RemoteService {
   static Future<String?> loginWithEmailandPassword(
       Map<String, String> map) async {
     http.Response res = await http.post(
-        Uri.parse(BASE_URL + no_auth + "/login"),
+        Uri.parse(baseUrl + '/' + noAuth + "/login"),
         headers: headers,
         body: jsonEncode(map));
 
@@ -70,11 +69,12 @@ class RemoteService {
     }
   }
 
-  static Future<BrandsList?> fatchStores(String country) async {
+  static Future<BrandsList?> fatchStores() async {
+    var country = LocalStorage.country;
     http.Response res = await http.get(
         headers: headers,
-        // Uri.parse(BASE_URL + no_auth + "/home?country=$country"),
-        Uri.parse("http://54.159.201.11:3000/app/no-auth/brand?country=UAE"));
+        // Uri.parse(baseUrl + no_auth + "/home?country=$country"),
+        Uri.parse("$baseUrl/no-auth/brand?country=$country"));
 
     var resp = jsonDecode(res.body);
 
@@ -91,9 +91,9 @@ class RemoteService {
     initiatizeAuthHeader();
     try {
       http.Response res = await http.get(
-          headers: auth_headers,
-          // Uri.parse(BASE_URL + no_auth + "/home?country=$country"),
-          Uri.parse("http://54.159.201.11:3000/app/auth/profile"));
+          headers: authHeader,
+          // Uri.parse(baseUrl + no_auth + "/home?country=$country"),
+          Uri.parse("$baseUrl/auth/profile"));
 
       var resp = jsonDecode(res.body);
       // print(res.statusCode);
@@ -103,16 +103,15 @@ class RemoteService {
         return "";
       }
       return jsonDecode(res.body)["message"];
-    } catch (e) {
-      print(e.toString());
-      print("error");
-    }
+    } catch (e) {}
   }
 
-  static Future<HomeModel?> fatchDeals(String country) async {
+  static Future<HomeModel?> fatchDeals() async {
+    var country = LocalStorage.country;
+    print(country);
     http.Response res = await http.get(
-        // Uri.parse(BASE_URL + no_auth + "/home?country=$country"),
-        Uri.parse("http://54.159.201.11:3000/app/no-auth/home?country=UAE"));
+        // Uri.parse(baseUrl + no_auth + "/home?country=$country"),
+        Uri.parse("$baseUrl/no-auth/home?country=$country"));
 
     var resp = jsonDecode(res.body);
 
@@ -128,35 +127,27 @@ class RemoteService {
     try {
       http.Response res = await http.get(
           headers: headers,
-          // Uri.parse(BASE_URL + no_auth + "/home?country=$country"),
-          Uri.parse(
-              "http://54.159.201.11:3000/app/no-auth/store/deals?store=${store.sId}"));
+          // Uri.parse(baseUrl + no_auth + "/home?country=$country"),
+          Uri.parse("$baseUrl/no-auth/store/deals?store=${store.sId}"));
 
       var resp = jsonDecode(res.body);
 
       if (res.statusCode == 200) {
-        print(res.statusCode);
-        print(res.body);
-        var x = DealsList.fromJson(resp);
-        print(x.message);
-        print(x.deal?.length);
+        // var x = DealsList.fromJson(resp);
         return DealsList.fromJson(resp);
       }
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
+    return null;
   }
 
   static Future uploadProfileImage(map) async {
-    print(map);
-    print(map);
     try {
       // var request = http.MultipartRequest(
       //   'POST',
-      //   Uri.parse(BASE_URL + '/app/' + "upload-profile-image"),
+      //   Uri.parse(baseUrl + '/app/' + "upload-profile-image"),
       // );
-      var request = http.MultipartRequest('POST',
-          Uri.parse('http://54.159.201.11:3000/app/auth/upload-profile-image'));
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('$baseUrl/auth/upload-profile-image'));
 
       // request.files.add(http.MultipartFile(
       //   'profile_image',
@@ -179,8 +170,6 @@ class RemoteService {
       var responseData = await http.Response.fromStream(res);
 
       var response = jsonDecode(responseData.body);
-      print(responseData.statusCode);
-      print(responseData.body);
       if (responseData.statusCode == 200) {
         return response;
       } else {
@@ -189,38 +178,7 @@ class RemoteService {
           "message": "Failed to upload profile image!",
         };
       }
-
-// var headers = {
-//   'token': 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ3MzRiZTk1Y2Q3M2NlMjJhMGQ2MzA3IiwiaWF0IjoxNjg1OTMyMTAxLCJleHAiOjE2ODk1MzIxMDEsImF1ZCI6Imh0dHA6Ly9teXNvZnRjb3JwLmluIiwiaXNzIjoiTXlzb2Z0IGNvcnAiLCJzdWIiOiJzb21lQHVzZXIuY29tIn0.inyxCBJqze7SspDtdNCT71vNYIhEQh4R-iGHIf0cy8eiZfFEG4r1wNELY53AdW3AtoMCf5-fHd_FEF6bWfzJduNRHk9Josl1I5_nV3qQ6X6vSAlId-z59wDoIlPdn7bCPTyWZtaacKfeMXHVZMxskMNxD4Zw0uSniaxCTvsOwXRXYyY4EcNz33LUBj0H7CSblwl0q0DanbvoR1XYaytp7B_KrSmP1QxR00dyHwK-rrX4eEJa4mnZuXDi10VcaQqSJ6ZBgGp8DHLMJ_14Jhm7SiX_dfx99mTrCz0pSQ8Pc9jQaCxMo_F6W2YL6GWU4W-04_nuHb9bCF3aPe5FWeNJ3w'
-// };
-// var request = http.MultipartRequest('POST', Uri.parse('http://localhost:3000/app/auth/upload-profile-image'));
-// request.files.add(await http.MultipartFile.fromPath('file', '/C:/Users/Lenovo/Downloads/get profile.png'));
-// request.headers.addAll(headers);
-
-// http.StreamedResponse response = await request.send();
-
-// if (response.statusCode == 200) {
-//   print(await response.stream.bytesToString());
-// }
-// else {
-//   print(response.reasonPhrase);
-// }
-
-      // Response res = await client.post(
-      //   Uri.parse(baseUrl + accounts + auth + "upload-profile-image"),
-      //   headers: {
-      //     "Content-type": "application/json; charset=utf-8",
-      //     "access_id": accessId,
-      //   },
-      //   body: jsonEncode(map),
-      // );
-
-      // var response = jsonDecode(res.body);
-
-      // return response;
     } catch (e) {
-      print("----------------------------------");
-      print(e.toString());
       return {
         "status": 400,
         "message": "Failed",
@@ -231,9 +189,47 @@ class RemoteService {
   static Future<String> getBanner() async {
     http.Response res = await http.get(
         headers: headers,
-        // Uri.parse(BASE_URL + no_auth + "/home?country=$country"),
-        Uri.parse("http://54.159.201.11:3000/app/no-auth/banner"));
-    print(res.body);
+        // Uri.parse(baseUrl + no_auth + "/home?country=$country"),
+        Uri.parse("$baseUrl/no-auth/banner"));
     return jsonDecode(res.body)["banner"]["image"];
+  }
+
+  static fatchCounties() async {
+    try {
+      http.Response res = await http.get(
+          headers: headers,
+          // Uri.parse(baseUrl + no_auth + "/home?country=$country"),
+          Uri.parse("$baseUrl/no-auth/country"));
+
+      var resp = jsonDecode(res.body);
+      // print(res.statusCode);
+      if (res.statusCode == 200) {
+        // var x = DealsList.fromJson(resp);
+        return CountryList.fromJson(resp);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return null;
+  }
+
+  static shareReferLink() async {
+    try {
+      http.Response res = await http.get(
+          headers: authHeader,
+          // Uri.parse(baseUrl + no_auth + "/home?country=$country"),
+          Uri.parse("$baseUrl/auth/referral-details"));
+
+      var resp = jsonDecode(res.body);
+      print(resp);
+      print(res.statusCode);
+      if (res.statusCode == 200) {
+        // var x = DealsList.fromJson(resp);
+        return Root.fromJson(resp);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return null;
   }
 }

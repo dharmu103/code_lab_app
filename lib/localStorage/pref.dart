@@ -1,17 +1,18 @@
+import 'package:code_lab/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage extends GetxController {
   static String? accessToken = '';
-  static String? language = 'None';
-  static String? country = 'UAE';
+  static String? language = 'English'.tr;
+  static String? country = 'UAE'.tr;
 
   @override
   void onInit() {
     setAccessToken();
     setLanguageToken();
-
+    setCountryToken();
     // print(country);
     super.onInit();
   }
@@ -32,28 +33,36 @@ class LocalStorage extends GetxController {
     if (pref.getString("language") != null) {
       language = pref.getString("language").toString();
     } else {
-      language = "None";
+      language = "English";
     }
     if (language == "Arabic") {
-      print(language);
       Get.updateLocale(const Locale("ar", "UAE"));
     } else {
-      print(language);
       Get.updateLocale(const Locale("en", "US"));
     }
     update();
-    print(language);
   }
 
   setCountryToken() async {
-    print("object");
+    // print("object");
+
     final SharedPreferences pref = await SharedPreferences.getInstance();
     if (pref.getString("country") != null) {
       country = pref.getString("country").toString();
+      print("$country    hu mai  ");
     } else {
       country = "UAE";
     }
 
+    // Get.find<HomeController>().getStores();
+    // Get.find<HomeController>().getDeals();
+
+    update();
+  }
+
+  updataData() async {
+    await Get.find<HomeController>().getStores();
+    await Get.find<HomeController>().getDeals();
     update();
   }
 }

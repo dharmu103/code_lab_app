@@ -26,7 +26,11 @@ Future codeDailog(context, HomeDeals deal) {
                 height: 20,
               ),
               deal.image == null
-                  ? Image.asset("assest/images/no-image.png")
+                  ? Image.asset(
+                      "assets/images/no-image.png",
+                      height: 70,
+                      width: 100,
+                    )
                   : CachedNetworkImage(
                       imageUrl: deal.image.toString(),
                       fit: BoxFit.fill,
@@ -144,7 +148,7 @@ Future codeDailog2(context, Deal deal) {
                 height: 20,
               ),
               deal.image == null
-                  ? Image.asset("assest/images/no-image.png")
+                  ? Image.asset("assets/images/no-image.png")
                   : CachedNetworkImage(
                       imageUrl: deal.image.toString(),
                       fit: BoxFit.fill,

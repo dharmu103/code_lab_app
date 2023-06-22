@@ -12,15 +12,15 @@ import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-Widget card4(context, HomeDeals deal) {
-  Future<void> _launchUrl() async {
-    if (!await launchUrl(Uri.parse(deal.link.toString()),
-        mode: LaunchMode.externalApplication)) {
-      print("object");
-      throw Exception('Could not launch ${deal.link}');
-    }
+Future<void> launchUrlDeal(deal) async {
+  if (!await launchUrl(Uri.parse(deal.link.toString()),
+      mode: LaunchMode.externalApplication)) {
+    print("object");
+    throw Exception('Could not launch ${deal.link}');
   }
+}
 
+Widget card4(context, HomeDeals deal) {
   return Padding(
     padding: const EdgeInsets.only(
       right: 10,
@@ -88,16 +88,18 @@ Widget card4(context, HomeDeals deal) {
                 ),
               ),
               const Spacer(),
-              Container(
-                  width: Get.width * 0.4,
-                  child: CopyCode(
-                    text: deal.coupon,
-                    onpress: () async {
-                      await Clipboard.setData(
-                          ClipboardData(text: deal.coupon.toString()));
-                      // copied successfully
-                    },
-                  )),
+              deal.coupon == ""
+                  ? Container()
+                  : SizedBox(
+                      width: Get.width * 0.4,
+                      child: CopyCode(
+                        text: deal.coupon,
+                        onpress: () async {
+                          await Clipboard.setData(
+                              ClipboardData(text: deal.coupon.toString()));
+                          // copied successfully
+                        },
+                      )),
               const SizedBox(
                 width: 20,
               ),
@@ -168,8 +170,8 @@ Widget card4(context, HomeDeals deal) {
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor: primaryColor, foregroundColor: kWhite),
-                  onPressed: _launchUrl,
-                  child: Container(
+                  onPressed: () => launchUrlDeal(deal),
+                  child: SizedBox(
                     width: 100,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

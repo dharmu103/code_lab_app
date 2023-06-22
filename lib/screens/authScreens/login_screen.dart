@@ -83,33 +83,33 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   height: 25,
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 1),
-                  width: Get.width,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            side: const BorderSide(width: 0.1),
-                            borderRadius: BorderRadius.circular(12)),
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.blue),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Image.asset("assets/images/googleicon.png"),
-                        ),
-                        Spacer(),
-                        Text("login_with_google".tr),
-                        Spacer(),
-                        Spacer()
-                      ],
-                    ),
-                    onPressed: () {},
-                  ),
-                ),
+                // Container(
+                //   padding: const EdgeInsets.symmetric(horizontal: 1),
+                //   width: Get.width,
+                //   height: 50,
+                //   child: ElevatedButton(
+                //     style: ElevatedButton.styleFrom(
+                //         elevation: 0,
+                //         shape: RoundedRectangleBorder(
+                //             side: const BorderSide(width: 0.1),
+                //             borderRadius: BorderRadius.circular(12)),
+                //         backgroundColor: Colors.white,
+                //         foregroundColor: Colors.blue),
+                //     child: Row(
+                //       children: [
+                //         Padding(
+                //           padding: const EdgeInsets.all(4.0),
+                //           child: Image.asset("assets/images/googleicon.png"),
+                //         ),
+                //         Spacer(),
+                //         Text("login_with_google".tr),
+                //         Spacer(),
+                //         Spacer()
+                //       ],
+                //     ),
+                //     onPressed: () {},
+                //   ),
+                // ),
                 Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
