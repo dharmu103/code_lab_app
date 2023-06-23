@@ -1,8 +1,10 @@
 import 'package:code_lab/routes/pages.dart';
+import 'package:code_lab/theme/colors.dart';
 import 'package:code_lab/theme/thems_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'controllers/bindings.dart';
 import 'locales/messages.dart';
 
 void main() {
@@ -16,11 +18,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: RootBindings(),
       debugShowCheckedModeBanner: false,
       title: 'Code Lab',
-      themeMode: ThemeMode.system,
+      color: primaryColor,
+      themeMode: ThemeMode.light,
       theme: ThemeDataOfApp().lightTheme,
-      darkTheme: ThemeDataOfApp().darkTheme,
       getPages: AppPages.pages,
       translations: Messages(),
       locale: const Locale('en', 'US'),

@@ -4,9 +4,8 @@ import 'package:get/get.dart';
 
 Widget searchBox() {
   return Padding(
-    padding: const EdgeInsets.all(18.0),
+    padding: const EdgeInsets.symmetric(vertical: 10),
     child: Container(
-      height: 50,
       width: Get.width - 36,
       // decoration: BoxDecoration(
       //     color: kWhite,
@@ -32,7 +31,10 @@ Widget searchBox() {
       //     )
       //   ],
       // ),
-      child: Image.asset("assets/images/logo.png"),
+      child: Image.asset(
+        "assets/images/logo.png",
+        height: 40,
+      ),
     ),
   );
 }

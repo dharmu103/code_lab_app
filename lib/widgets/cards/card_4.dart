@@ -1,8 +1,8 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/models/HomePage_dela.dart';
-import 'package:code_lab/models/deals_list.dart';
-import 'package:code_lab/models/deals_model.dart';
 import 'package:code_lab/theme/colors.dart';
 import 'package:code_lab/widgets/buttons/get_code.dart';
 import 'package:flutter/cupertino.dart';
@@ -68,7 +68,7 @@ Widget card4(context, HomeDeals deal) {
               Container(
                 width: 100,
                 height: 70,
-                color: Colors.grey.shade200,
+                // color: Colors.grey.shade200,
                 child: Padding(
                   padding: const EdgeInsets.all(0),
                   child: SizedBox(
@@ -105,11 +105,14 @@ Widget card4(context, HomeDeals deal) {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            child: LocalStorage.language == 'Arabic'
-                ? Text(deal.descriptionArabic.toString())
-                : Text(deal.description.toString()),
+          Container(
+            width: Get.width,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+              child: LocalStorage.language == 'Arabic'
+                  ? Text(deal.descriptionArabic.toString())
+                  : Text(deal.description.toString()),
+            ),
           ),
           // Container(
           //     width: Get.width,
@@ -138,7 +141,13 @@ Widget card4(context, HomeDeals deal) {
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Text(
-                  'used'.tr + ' ' + '13125' + ' ' + 'times'.tr,
+                  'used'.tr +
+                      ' ' +
+                      '${Random().nextInt(
+                            100000,
+                          ) + 100000}' +
+                      ' ' +
+                      'times'.tr,
                   style: TextStyle(color: Colors.indigo),
                 ),
               ),
@@ -153,7 +162,11 @@ Widget card4(context, HomeDeals deal) {
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Text(
-                  "last_used".tr + " " + '6' + " " + "min_ago".tr,
+                  "last_used".tr +
+                      " " +
+                      '${Random().nextInt(10).toString()}' +
+                      " " +
+                      "min_ago".tr,
                   style: TextStyle(color: kGreen),
                 ),
               ),

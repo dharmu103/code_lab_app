@@ -41,7 +41,7 @@ class SignupScreen extends StatelessWidget {
                     Expanded(
                         child: textfields(
                             controller.fnameTextController, "f_name".tr, (v) {
-                      v.trim().toString().isEmpty
+                      return v.trim().toString().isEmpty
                           ? null
                           : "Please enter valid first name.";
                     })),
@@ -51,7 +51,7 @@ class SignupScreen extends StatelessWidget {
                     Expanded(
                         child: textfields(
                             controller.lnameTextController, "l_name".tr, (v) {
-                      v.trim().toString().isEmpty
+                      return v.trim().toString().isEmpty
                           ? null
                           : "Please enter valid last name.";
                     })),
@@ -61,7 +61,7 @@ class SignupScreen extends StatelessWidget {
                   height: 25,
                 ),
                 textfields(controller.emailTextController, "email_id".tr, (v) {
-                  v.trim().toString().isEmail
+                  return v.trim().toString().isEmail
                       ? null
                       : "Please enter valid email.";
                 }),
@@ -70,9 +70,9 @@ class SignupScreen extends StatelessWidget {
                 ),
                 textfields(controller.passwordTextController, "password".tr,
                     (v) {
-                  v.trim().toString().isEmpty
+                  return v.trim().toString().isEmpty || v.toString().length < 8
                       ? null
-                      : "Please enter valid password.";
+                      : "Password must be atleast 8 characters.";
                 }),
                 const SizedBox(
                   height: 25,

@@ -15,12 +15,12 @@ Widget card1(Brands store) {
     ),
     child: GestureDetector(
       onTap: () {
-        Get.to(DetailsScreen(), arguments: store);
+        Get.to(TopDeal(), arguments: store);
       },
       child: Container(
         width: Get.width * 0.3 - 18,
         child: Padding(
-          padding: const EdgeInsets.all(0.0),
+          padding: const EdgeInsets.all(2.0),
           child: store.logo == null
               ? Image.asset("assets/images/no-image.png")
               : ClipRRect(
@@ -52,9 +52,9 @@ Widget card1(Brands store) {
             //       logo,
             //     ),
             //     fit: BoxFit.fill),
-            // color: kWhite,
+            color: kWhite,
             borderRadius: BorderRadius.circular(14),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(color: Colors.grey, blurRadius: 0.1, spreadRadius: 0.01)
             ]),
       ),

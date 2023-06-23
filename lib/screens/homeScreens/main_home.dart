@@ -22,8 +22,8 @@ List pages = [const HomeScreen(), const BrandsScreen(), const ProfileScreen()];
 class _MainHomeState extends State<MainHome> {
   @override
   Widget build(BuildContext context) {
-    final prefcontroller = Get.put(LocalStorage());
-    final logincontroller = Get.put(LoginController());
+    // final prefcontroller = Get.put(LocalStorage());
+    // final logincontroller = Get.put(LoginController());
     final controller = Get.put(HomeController());
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(

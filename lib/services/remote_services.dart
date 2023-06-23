@@ -25,7 +25,7 @@ class RemoteService {
     'token': token
   };
 
-  static initiatizeAuthHeader() async {
+  static initiatizeAuthHeader(token) async {
     authHeader = {
       "Content-type": "application/json; charset=utf-8",
       "token": token,
@@ -44,7 +44,7 @@ class RemoteService {
       token = jsonDecode(res.body)["token"];
       final SharedPreferences pref = await SharedPreferences.getInstance();
       pref.setString("accessToken", jsonDecode(res.body)["token"]);
-      initiatizeAuthHeader();
+      initiatizeAuthHeader(token);
       return "";
     } else {
       return jsonDecode(res.body)["message"];
@@ -60,7 +60,7 @@ class RemoteService {
 
     if (res.statusCode == 200) {
       token = jsonDecode(res.body)["token"];
-      initiatizeAuthHeader();
+      initiatizeAuthHeader(token);
       final SharedPreferences pref = await SharedPreferences.getInstance();
       pref.setString("accessToken", jsonDecode(res.body)["token"]);
       return "";
@@ -88,7 +88,7 @@ class RemoteService {
 
   static Future getProfile(String string) async {
     token = string;
-    initiatizeAuthHeader();
+    initiatizeAuthHeader(token);
     try {
       http.Response res = await http.get(
           headers: authHeader,

@@ -9,10 +9,10 @@ class ThemeDataOfApp {
   // });
 
   ThemeData lightTheme = ThemeData.light().copyWith(
-    useMaterial3: true,
-  );
-  ThemeData darkTheme = ThemeData.dark().copyWith(
-    useMaterial3: true,
-    scaffoldBackgroundColor: primaryColor.withOpacity(0.01),
+    primaryColor: primaryColor,
+    textTheme: GoogleFonts.tajawalTextTheme(),
+    primaryColorLight: primaryColor,
+
+    // useMaterial3: true,
   );
 }

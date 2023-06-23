@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:code_lab/models/HomePage_dela.dart';
 import 'package:code_lab/models/deals_list.dart';
 import 'package:code_lab/models/store_model.dart';
 import 'package:code_lab/services/remote_services.dart';
+import 'package:code_lab/widgets/buttons/get_code.dart';
 import 'package:code_lab/widgets/cards/card_4.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,56 +11,59 @@ import 'package:get/get.dart';
 import '../../models/deals_model.dart';
 import '../../widgets/dailogs/code_dailog.dart';
 
-class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({super.key});
+// class DetailsScreen extends StatelessWidget {
+//   const DetailsScreen({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         // appBar: AppBar(
+//         //   title: const Text("Brands Name"),
+//         // ),
+//         //   // body: FutureBuilder<DealsList?>(
+//         //   //     future: getDeals(),
+//         //   //     builder: (context, snapshot) {
+//         //   //       if (snapshot.hasError) {
+//         //   //         return const Center(child: Text("Error"));
+//         //   //       }
+//         //   //       if (snapshot.connectionState == ConnectionState.waiting) {
+//         //   //         return const Center(
+//         //   //           child: CircularProgressIndicator(),
+//         //   //         );
+//         //   //       }
+//         //   //       if (snapshot.hasData) {
+//         //   //         if (snapshot.data!.deal!.isEmpty) {
+//         //   //           return const Center(
+//         //   //             child: Text("No Deals Found"),
+//         //   //           );
+//         //   //         }
+//         //   //         return TopDeal(
+//         //   //           deals: snapshot.data!,
+//         //   //           args: args,
+//         //   //         );
+//         //   //       }
+
+//         //   //       return const Text("No Data Found");
+//         //       }),
+//         //
+//         // );
+//         );
+//   }
+// }
+
+class TopDeal extends StatelessWidget {
+  TopDeal({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    var args = Get.arguments;
+    Brands args = Get.arguments;
     getDeals() {
       print(args.sId);
       return RemoteService.fatchDealsByStore(args);
     }
 
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text("Brands Name"),
-      // ),
-      body: FutureBuilder<DealsList?>(
-          future: getDeals(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return const Center(child: Text("Error"));
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (snapshot.hasData) {
-              if (snapshot.data!.deal!.isEmpty) {
-                return const Center(
-                  child: Text("No Deals Found"),
-                );
-              }
-              return TopDeal(
-                deals: snapshot.data!,
-                args: args,
-              );
-            }
-
-            return const Text("No Data Found");
-          }),
-    );
-  }
-}
-
-class TopDeal extends StatelessWidget {
-  TopDeal({super.key, required this.deals, required this.args});
-  DealsList deals;
-  Brands args;
-  @override
-  Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.blue.shade100,
@@ -93,7 +98,7 @@ class TopDeal extends StatelessWidget {
                 ),
                 child: ListView(
                   primary: false,
-                  padding: const EdgeInsets.only(left: 25, right: 25),
+                  // padding: const EdgeInsets.only(left: 25, right: 25),
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 45.0),
@@ -104,77 +109,131 @@ class TopDeal extends StatelessWidget {
                           Container(
                             height: 50,
                             width: 50,
-                            child: const Image(
-                                image:
-                                    AssetImage('assets/images/img_test.jpeg')),
+                            child: CachedNetworkImage(
+                              imageUrl: args.logo!,
+                            ),
                           ),
                           const SizedBox(
                             height: 10,
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 40),
-                            child: Text(
-                              args.name.toString(),
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
+                          Text(
+                            args.name.toString(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(
                             height: 20,
                           ),
-                          Container(
-                            child: const Image(
-                                image:
-                                    AssetImage('assets/images/img_test2.jpeg')),
-                          ),
+                          // Container(
+                          //   child: const Image(
+                          //       image:
+                          //           AssetImage('assets/images/img_test2.jpeg')),
+                          // ),
                           const SizedBox(
                             height: 20,
                           ),
-                          Container(
-                            height: 200,
-                            child: ListView.builder(
-                                itemCount: deals.deal?.length,
-                                itemBuilder: (c, i) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top: 8),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8.0),
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                          Divider(
+                            color: Colors.grey.shade300,
+                          ),
+                          FutureBuilder<DealsList?>(
+                              future: getDeals(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                      child: Container(
+                                          width: 20,
+                                          height: 20,
+                                          child: CircularProgressIndicator()));
+                                }
+                                if (snapshot.hasData &&
+                                    snapshot.data?.deal?.length == null) {
+                                  return Text("No Deals Found");
+                                }
+                                return ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: ScrollPhysics(),
+                                    itemCount: snapshot.data?.deal?.length,
+                                    itemBuilder: (c, i) {
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Flexible(
-                                            child: Text(
-                                              deals.deal![i].description
-                                                  .toString(),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 18.0,
-                                                // fontWeight: FontWeight.bold,
+                                          ListTile(
+                                              trailing: GetCode(
+                                                onpress: () {
+                                                  if (snapshot.data!.deal?[i]
+                                                          .coupon ==
+                                                      null) {
+                                                  } else {
+                                                    codeDailog2(
+                                                        context,
+                                                        snapshot
+                                                            .data!.deal![i]);
+                                                  }
+                                                },
+                                                text: snapshot.data!.deal?[i]
+                                                            .coupon ==
+                                                        null
+                                                    ? "Get Deal"
+                                                    : "Get Code",
                                               ),
-                                            ),
-                                          ),
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              // Copy button logic
-
-                                              codeDailog2(
-                                                  context, deals.deal![i]);
-                                            },
-                                            child: const Text('Get CODE'),
+                                              title: Text(
+                                                snapshot
+                                                    .data!.deal![i].description
+                                                    .toString(),
+                                              )),
+                                          Divider(
+                                            color: Colors.grey.shade300,
                                           ),
                                         ],
-                                      ),
-                                    ),
-                                  );
-                                }),
-                          ),
+                                      );
+                                      //   return Padding(
+                                      //     padding:
+                                      //         const EdgeInsets.only(top: 8),
+                                      //     child: Container(
+                                      //       padding: const EdgeInsets.all(8.0),
+                                      //       decoration: BoxDecoration(
+                                      //         color: Colors.grey[200],
+                                      //         borderRadius:
+                                      //             BorderRadius.circular(10.0),
+                                      //       ),
+                                      //       child: Row(
+                                      //         mainAxisAlignment:
+                                      //             MainAxisAlignment
+                                      //                 .spaceBetween,
+                                      //         children: [
+                                      //           Flexible(
+                                      //             child: Text(
+                                      //               snapshot.data!.deal![i]
+                                      //                   .description
+                                      //                   .toString(),
+                                      //               maxLines: 2,
+                                      //               overflow:
+                                      //                   TextOverflow.ellipsis,
+                                      //               style: TextStyle(
+                                      //                 fontSize: 18.0,
+                                      //                 // fontWeight: FontWeight.bold,
+                                      //               ),
+                                      //             ),
+                                      //           ),
+                                      //           ElevatedButton(
+                                      //             onPressed: () {
+                                      //               // Copy button logic
+
+                                      //               codeDailog2(
+                                      //                   context,
+                                      //                   snapshot
+                                      //                       .data!.deal![i]);
+                                      //             },
+                                      //             child: const Text('Get CODE'),
+                                      //           ),
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //   );
+                                    });
+                              }),
                           const SizedBox(height: 10.0),
                           // Container(
                           //   padding: const EdgeInsets.all(8.0),

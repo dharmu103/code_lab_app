@@ -18,7 +18,7 @@ class LoginController extends GetxController {
   onReady() async {
     await Future.delayed(const Duration(seconds: 3));
     await getProfile();
-    Get.toNamed(Routes.HOME);
+    Get.offAllNamed(Routes.HOME);
     super.onReady();
   }
 
