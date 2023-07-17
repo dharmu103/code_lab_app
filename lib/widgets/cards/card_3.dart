@@ -4,6 +4,8 @@ import 'package:code_lab/controllers/home_controller.dart';
 import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/models/HomePage_dela.dart';
 import 'package:code_lab/models/deals_model.dart';
+import 'package:code_lab/routes/pages.dart';
+import 'package:code_lab/screens/homeScreens/main_home.dart';
 import 'package:code_lab/theme/colors.dart';
 import 'package:code_lab/widgets/buttons/get_code.dart';
 import 'package:code_lab/widgets/cards/card_4.dart';
@@ -51,7 +53,7 @@ Widget card3(context, HomeDeals deal) {
                   child: const Icon(
                     Icons.share_sharp,
                     size: 15,
-                    color: Colors.grey,
+                    color: Colors.black,
                   ),
                 ),
               ],
@@ -130,5 +132,30 @@ Widget card3(context, HomeDeals deal) {
         ],
       ),
     ),
+  );
+}
+
+Widget seeAllcard3() {
+  final c = Get.find<HomeController>();
+  return Padding(
+    padding: const EdgeInsets.only(
+      left: 10.0,
+      top: 5,
+      bottom: 5,
+    ),
+    child: Container(
+        width: Get.width * 0.4 - 18,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(14),
+            boxShadow: const [
+              BoxShadow(color: Colors.grey, blurRadius: 0.1, spreadRadius: 0.01)
+            ]),
+        child: TextButton(
+          child: Text("See All"),
+          onPressed: () {
+            Get.toNamed(Routes.BRANDS);
+          },
+        )),
   );
 }

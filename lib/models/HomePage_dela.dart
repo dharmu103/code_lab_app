@@ -7,8 +7,11 @@ class HomeDeals {
   String? descriptionArabic;
   String? coupon;
   String? link;
-  List<Null>? tags;
+
+  List<String?>? tags;
   int? index;
+  String? lastUsed;
+  String? usedTimes;
   int? iV;
   String? image;
 
@@ -23,6 +26,8 @@ class HomeDeals {
       this.link,
       this.tags,
       this.index,
+      this.lastUsed,
+      this.usedTimes,
       this.iV,
       this.image});
 
@@ -35,7 +40,9 @@ class HomeDeals {
     descriptionArabic = json['description_arabic'];
     coupon = json['coupon'];
     link = json['link'];
-
+    tags = json['tags'].cast<String>();
+    lastUsed = json["last_used"];
+    usedTimes = json["used_times"];
     index = json['index'];
     iV = json['__v'];
     image = json['image'];
@@ -53,6 +60,7 @@ class HomeDeals {
     data['link'] = this.link;
 
     data['index'] = this.index;
+    data['tags'] = this.tags;
     data['__v'] = this.iV;
     data['image'] = this.image;
     return data;

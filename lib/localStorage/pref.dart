@@ -7,7 +7,7 @@ class LocalStorage extends GetxController {
   static String? accessToken = '';
   static String? language = 'English'.tr;
   static String? country = 'UAE'.tr;
-
+  RxBool notification = true.obs;
   @override
   void onInit() {
     setAccessToken();

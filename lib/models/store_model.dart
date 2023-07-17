@@ -4,7 +4,7 @@ class Brands {
   String? name;
   String? nameArabic;
   String? link;
-  List<Null>? tags;
+  List<String?>? tags;
   int? index;
   int? iV;
   String? logo;

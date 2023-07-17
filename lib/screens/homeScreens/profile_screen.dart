@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:code_lab/color_constant.dart';
 import 'package:code_lab/controllers/login_controller.dart';
 import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/models/user_model.dart';
@@ -37,82 +38,83 @@ class ProfileScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   // leading: IconButton(
-        //   //   //  onPressed: () => Get.back(),
-        //   //     icon: const Icon(LineAwesomeIcons.angle_left)),
-        //   backgroundColor: kWhite,
-        //   elevation: 0.51,
+        appBar: AppBar(
+          // leading: IconButton(
+          //   //  onPressed: () => Get.back(),
+          //     icon: const Icon(LineAwesomeIcons.angle_left)),
+          backgroundColor: kWhite,
+          elevation: 0.51,
 
-        //   title: Text(
-        //     "profile".tr,
-        //     style: TextStyle(
-        //       color: Colors.black,
-        //       fontSize: 16,
-        //     ),
-        //   ),
-        //   actions: [
-        //     Row(
-        //       children: [
-        //         GetBuilder<HomeController>(
-        //           init: HomeController(),
-        //           initState: (_) {},
-        //           builder: (_) {
-        //             return Text(
-        //               "Referral Earning : ${_.referDetail?.referraldetails?.referralpoints ?? 0}",
-        //               style:
-        //                   TextStyle(fontSize: 16, color: primaryColor).copyWith(),
-        //             );
-        //           },
-        //         ),
-        //       ],
-        //     ),
-        //     SizedBox(
-        //       width: 20,
-        //     )
-        //   ],
-        // ),
+          title: Text(
+            "profile".tr,
+            style: TextStyle(
+                color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          actions: [
+            Row(
+              children: [
+                GetBuilder<HomeController>(
+                  init: HomeController(),
+                  initState: (_) {},
+                  builder: (_) {
+                    if (RemoteService.user.profile?.email == null) {
+                      return Container();
+                    }
+                    return Text(
+                      "Referral Earning : ${_.referDetail?.referraldetails?.referralpoints ?? 0}",
+                      style: TextStyle(fontSize: 16, color: primaryColor)
+                          .copyWith(),
+                    );
+                  },
+                ),
+              ],
+            ),
+            SizedBox(
+              width: 20,
+            )
+          ],
+        ),
         body: SingleChildScrollView(
           child: Container(
             height: Get.height,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.lightBlue.shade300.withOpacity(.08),
-                  Colors.lightBlue.shade100.withOpacity(0.8)
-                ],
-              ),
-            ),
+                // gradient: LinearGradient(
+                //   begin: Alignment.topCenter,
+                //   end: Alignment.bottomCenter,
+                //   colors: [
+                //     Colors.lightBlue.shade300.withOpacity(.08),
+                //     Colors.lightBlue.shade100.withOpacity(0.8)
+                //   ],
+                // ),
+                ),
             padding: const EdgeInsets.all(18),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        "profile".tr,
-                        style: const TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.w500),
-                      ),
-                      Spacer(),
-                      GetBuilder<HomeController>(
-                        init: HomeController(),
-                        initState: (_) {},
-                        builder: (_) {
-                          return Text(
-                            "Referral Earning : ${_.referDetail?.referraldetails?.referralpoints ?? 0}",
-                            style: TextStyle(fontSize: 16, color: Colors.blue)
-                                .copyWith(),
-                          );
-                        },
-                      )
-                    ],
-                  ),
-                ),
-                Divider(),
+                // Padding(
+                //   padding: const EdgeInsets.all(10.0),
+                //   child: Row(
+                //     children: [
+                //       Text(
+                //         "profile".tr,
+                //         style: const TextStyle(
+                //             fontSize: 25, fontWeight: FontWeight.w500),
+                //       ),
+                //       Spacer(),
+                //       GetBuilder<HomeController>(
+                //         init: HomeController(),
+                //         initState: (_) {},
+                //         builder: (_) {
+                //           return Text(
+                //             "Referral Earning : ${_.referDetail?.referraldetails?.referralpoints ?? 0}",
+                //             style: TextStyle(fontSize: 16, color: Colors.blue)
+                //                 .copyWith(),
+                //           );
+                //         },
+                //       )
+                //     ],
+                //   ),
+                // ),
+                // Divider(),
 
                 /// -- IMAGE
                 GetBuilder<LocalStorage>(builder: (_) {
@@ -279,6 +281,9 @@ class ProfileScreen extends StatelessWidget {
                   init: HomeController(),
                   initState: (_) {},
                   builder: (_) {
+                    if (RemoteService.user.profile?.email == null) {
+                      return Container();
+                    }
                     return ProfileMenuWidget(
                         title: "refer_and_earn".tr,
                         icon: LineAwesomeIcons.share,
@@ -289,6 +294,28 @@ class ProfileScreen extends StatelessWidget {
                         });
                   },
                 ),
+                Obx(() => SwitchListTile(
+                      value: LocalStorage().notification.value,
+                      secondary: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: ColorConstant.yellow700,
+                          ),
+                          child: Icon(
+                            Icons.notifications_none_outlined,
+                            color: Colors.black,
+                          )),
+                      title: const Text('Notifications',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 14)),
+                      onChanged: (bool? value) {
+                        //  changeNotification()
+                      },
+                    )),
+                const Divider(),
+                const SizedBox(height: 10),
                 const Divider(),
                 const SizedBox(height: 10),
                 // ProfileMenuWidget(
@@ -326,6 +353,7 @@ class ProfileScreen extends StatelessWidget {
                                       backgroundColor: Colors.red,
                                       colorText: kWhite);
                                   Get.find<LocalStorage>().setAccessToken();
+                                  Get.find<LoginController>().logout();
                                   // Get.toNamed(Routes.INITIAL);
                                 },
                                 child: Text("ok".tr)));
@@ -386,7 +414,7 @@ class ProfileMenuWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
-    var iconColor = isDark ? Colors.indigo : Colors.indigo;
+    var iconColor = isDark ? Colors.black : Colors.black;
 
     return ListTile(
       onTap: onPress,
@@ -395,23 +423,22 @@ class ProfileMenuWidget extends StatelessWidget {
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          color: iconColor.withOpacity(0.1),
+          color: ColorConstant.yellow700,
         ),
         child: Icon(icon, color: iconColor),
       ),
       title: Text(title,
-          style:
-              Theme.of(context).textTheme.bodyLarge?.apply(color: textColor)),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
       trailing: endIcon
           ? Container(
               width: 30,
               height: 30,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: Colors.grey.withOpacity(0.1),
-              ),
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.circular(100),
+              //   color: ColorConstant.yellow700,
+              // ),
               child: const Icon(LineAwesomeIcons.angle_right,
-                  size: 18.0, color: Colors.grey))
+                  size: 18.0, color: Colors.black))
           : null,
     );
   }

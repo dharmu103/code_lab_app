@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:code_lab/controllers/home_controller.dart';
 import 'package:code_lab/screens/details/details_screen.dart';
 import 'package:code_lab/theme/colors.dart';
+import 'package:code_lab/widgets/chips/chips.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,15 +19,15 @@ class BrandsScreen extends StatelessWidget {
       child: Scaffold(
         body: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.lightBlue.shade300.withOpacity(.08),
-                Colors.lightBlue.shade100.withOpacity(0.8)
-              ],
-            ),
-          ),
+              // gradient: LinearGradient(
+              //   begin: Alignment.topCenter,
+              //   end: Alignment.bottomCenter,
+              //   colors: [
+              //     Colors.lightBlue.shade300.withOpacity(.08),
+              //     Colors.lightBlue.shade100.withOpacity(0.8)
+              //   ],
+              // ),
+              ),
           child: Stack(
             children: [
               SingleChildScrollView(
@@ -35,31 +36,44 @@ class BrandsScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       searchBox(),
-                      Divider(),
-                      // const SizedBox(
-                      //   height: 86,
-                      // ),
-                      // SizedBox(
-                      //   height: 50,
-                      //   child: ListView.builder(
-                      //       shrinkWrap: true,
-                      //       physics: const ScrollPhysics(),
-                      //       itemCount: 10,
-                      //       scrollDirection: Axis.horizontal,
-                      //       itemBuilder: ((context, index) {
-                      //         if (index == 0) {
-                      //           return CustomChips();
-                      //         }
-
-                      //         return GestureDetector(
-                      //             onTap: () {}, child: const CustomChips());
-                      //       })),
-                      // ),
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
                       SizedBox(
-                        height: 100,
+                        height: 50,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const ScrollPhysics(),
+                            itemCount:
+                                controller.categoriesList?.categories?.length ??
+                                    0,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: ((context, index) {
+                              if (index == 0) {
+                                return CustomChips(
+                                  text: controller
+                                      .categoriesList?.categories?[index],
+                                );
+                              }
+                              if (index ==
+                                  controller
+                                          .categoriesList!.categories!.length -
+                                      1) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 20.0),
+                                  child: CustomChips(
+                                    text: controller
+                                        .categoriesList?.categories?[index],
+                                  ),
+                                );
+                              }
+
+                              return CustomChips(
+                                text: controller
+                                    .categoriesList?.categories?[index],
+                              );
+                            })),
+                      ),
+                      Divider(),
+                      SizedBox(
+                        height: 70,
                         child: ListView.builder(
                             shrinkWrap: true,
                             physics: const ScrollPhysics(),
@@ -73,14 +87,17 @@ class BrandsScreen extends StatelessWidget {
                                     //     BoxDecoration(color: Colors.black),
                                     child: GestureDetector(
                                       onTap: () {
-                                        Get.to(TopDeal(),
-                                            arguments: controller
-                                                .brands!.brands?[index]);
+                                        Get.to(
+                                          TopDeal(
+                                            args: controller
+                                                .brands!.brands![index],
+                                          ),
+                                        );
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: CircleAvatar(
-                                          radius: 50,
+                                          radius: 30,
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(50),
@@ -115,15 +132,17 @@ class BrandsScreen extends StatelessWidget {
                                             const EdgeInsets.only(left: 8.0),
                                         child: GestureDetector(
                                           onTap: () {
-                                            Get.to(TopDeal(),
-                                                arguments: controller
-                                                    .brands!.brands?[index]);
+                                            Get.to(
+                                              TopDeal(
+                                                  args: controller
+                                                      .brands!.brands![index]),
+                                            );
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: CircleAvatar(
                                               backgroundColor: kWhite,
-                                              radius: 50,
+                                              radius: 30,
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(18.0),
@@ -142,15 +161,17 @@ class BrandsScreen extends StatelessWidget {
                                   // margin: const EdgeInsets.only(left: 8.0),
                                   child: GestureDetector(
                                 onTap: () {
-                                  Get.to(TopDeal(),
-                                      arguments:
-                                          controller.brands!.brands?[index]);
+                                  Get.to(
+                                    TopDeal(
+                                        args:
+                                            controller.brands!.brands![index]),
+                                  );
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: CircleAvatar(
                                     backgroundColor: kWhite,
-                                    radius: 50,
+                                    radius: 30,
                                     backgroundImage: NetworkImage(
                                       controller.brands!.brands![index].logo
                                           .toString(),
@@ -160,21 +181,24 @@ class BrandsScreen extends StatelessWidget {
                               ));
                             })),
                       ),
-
                       Divider(),
                       const SizedBox(
                         height: 10,
                       ),
-                      SizedBox(
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: const ScrollPhysics(),
-                            itemCount: controller.homeModel!.deals?.length ?? 0,
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: ((context, index) {
-                              return card4(
-                                  context, controller.homeModel!.deals![index]);
-                            })),
+                      GetBuilder<HomeController>(
+                        builder: (_) {
+                          return SizedBox(
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: const ScrollPhysics(),
+                                itemCount: controller.filteredDeal?.length ?? 0,
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: ((context, index) {
+                                  return card4(
+                                      context, controller.filteredDeal![index]);
+                                })),
+                          );
+                        },
                       ),
                       const SizedBox(
                         height: 10,

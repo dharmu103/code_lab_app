@@ -8,6 +8,9 @@ import 'package:code_lab/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/banner_list_model.dart';
+import '../models/carousel_list.dart';
+import '../models/categories_list_model.dart';
 import '../models/deals_list.dart';
 import '../models/store_list.dart';
 import '../models/store_model.dart';
@@ -45,6 +48,7 @@ class RemoteService {
       final SharedPreferences pref = await SharedPreferences.getInstance();
       pref.setString("accessToken", jsonDecode(res.body)["token"]);
       initiatizeAuthHeader(token);
+      await getProfile(token);
       return "";
     } else {
       return jsonDecode(res.body)["message"];
@@ -63,6 +67,26 @@ class RemoteService {
       initiatizeAuthHeader(token);
       final SharedPreferences pref = await SharedPreferences.getInstance();
       pref.setString("accessToken", jsonDecode(res.body)["token"]);
+      await getProfile(token);
+      return "";
+    } else {
+      return jsonDecode(res.body)["message"];
+    }
+  }
+
+  static Future<String?> loginWithThirdParty(Map<String, String> map) async {
+    http.Response res = await http.post(
+        Uri.parse(baseUrl + '/' + noAuth + "/login"),
+        headers: headers,
+        body: jsonEncode(map));
+    //// print(res.body);
+    if (res.statusCode == 200) {
+      token = jsonDecode(res.body)["token"];
+
+      initiatizeAuthHeader(token);
+      final SharedPreferences pref = await SharedPreferences.getInstance();
+      pref.setString("accessToken", jsonDecode(res.body)["token"]);
+      await getProfile(token);
       return "";
     } else {
       return jsonDecode(res.body)["message"];
@@ -108,7 +132,7 @@ class RemoteService {
 
   static Future<HomeModel?> fatchDeals() async {
     var country = LocalStorage.country;
-    print(country);
+    //// print(country);
     http.Response res = await http.get(
         // Uri.parse(baseUrl + no_auth + "/home?country=$country"),
         Uri.parse("$baseUrl/no-auth/home?country=$country"));
@@ -116,8 +140,8 @@ class RemoteService {
     var resp = jsonDecode(res.body);
 
     if (res.statusCode == 200) {
-      // print(res.statusCode);
-      // print(res.body);
+      //// print(res.statusCode);
+      //// print(resp["deals"]);
       return HomeModel.fromJson(resp);
     }
     return null;
@@ -186,12 +210,15 @@ class RemoteService {
     }
   }
 
-  static Future<String> getBanner() async {
+  static Future<BannerList?> getBanner() async {
+    var country = LocalStorage.country;
     http.Response res = await http.get(
         headers: headers,
         // Uri.parse(baseUrl + no_auth + "/home?country=$country"),
-        Uri.parse("$baseUrl/no-auth/banner"));
-    return jsonDecode(res.body)["banner"]["image"];
+        Uri.parse("$baseUrl/no-auth/banner?country=$country"));
+    var resp = jsonDecode(res.body);
+    //// print(resp);
+    return BannerList.fromJson(resp);
   }
 
   static fatchCounties() async {
@@ -208,7 +235,7 @@ class RemoteService {
         return CountryList.fromJson(resp);
       }
     } catch (e) {
-      print(e.toString());
+      //// print(e.toString());
     }
     return null;
   }
@@ -221,14 +248,43 @@ class RemoteService {
           Uri.parse("$baseUrl/auth/referral-details"));
 
       var resp = jsonDecode(res.body);
-      print(resp);
-      print(res.statusCode);
+      //// print(resp);
+      //// print(res.statusCode);
       if (res.statusCode == 200) {
         // var x = DealsList.fromJson(resp);
         return Root.fromJson(resp);
       }
     } catch (e) {
-      print(e.toString());
+      //// print(e.toString());
+    }
+    return null;
+  }
+
+  static Future<CarouselList?> fatchCarousel() async {
+    var country = LocalStorage.country;
+    http.Response res = await http.get(
+        headers: headers,
+        Uri.parse("$baseUrl/no-auth/carousel?country=$country"));
+    var resp = jsonDecode(res.body);
+    //// print(resp);
+    if (res.statusCode == 200) {
+      return CarouselList.fromJson(resp);
+    } else {
+      return CarouselList(message: "Unsuccess");
+    }
+  }
+
+  static Future<CategoriesList?> fatchCatagory() async {
+    try {
+      http.Response res = await http.get(
+        headers: headers,
+        Uri.parse("$baseUrl/no-auth/categories"),
+      );
+      var resp = jsonDecode(res.body);
+      //// print(resp);
+      return CategoriesList.fromJson(resp);
+    } catch (e) {
+      //// print(e.toString());
     }
     return null;
   }

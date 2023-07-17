@@ -1,5 +1,7 @@
 import 'package:code_lab/models/store_model.dart';
+import 'package:code_lab/routes/pages.dart';
 import 'package:code_lab/screens/details/details_screen.dart';
+import 'package:code_lab/screens/homeScreens/brands_screen.dart';
 import 'package:code_lab/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +17,9 @@ Widget card1(Brands store) {
     ),
     child: GestureDetector(
       onTap: () {
-        Get.to(TopDeal(), arguments: store);
+        Get.to(
+          TopDeal(args: store),
+        );
       },
       child: Container(
         width: Get.width * 0.3 - 18,
@@ -39,6 +43,52 @@ Widget card1(Brands store) {
                         const Icon(Icons.error),
                   ),
                 ),
+        ),
+        // : Image.network(
+        //     logo,
+        //     fit: BoxFit.fill,
+        //     width: Get.width * 0.2,
+        //   )),
+
+        decoration: BoxDecoration(
+            // image: DecorationImage(
+            //     image: CachedNetworkImageProvider(
+            //       logo,
+            //     ),
+            //     fit: BoxFit.fill),
+            color: kWhite,
+            borderRadius: BorderRadius.circular(14),
+            boxShadow: [
+              BoxShadow(color: Colors.grey, blurRadius: 0.1, spreadRadius: 0.01)
+            ]),
+      ),
+    ),
+  );
+}
+
+Widget seeAllcard1() {
+  return Padding(
+    padding: const EdgeInsets.only(
+      left: 10.0,
+      top: 5,
+      bottom: 5,
+    ),
+    child: GestureDetector(
+      onTap: () {
+        Get.toNamed(Routes.BRANDS);
+      },
+      child: Container(
+        width: Get.width * 0.3 - 18,
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(14),
+              child: TextButton(
+                child: Text("See All"),
+                onPressed: () {
+                  Get.toNamed(Routes.BRANDS);
+                },
+              )),
         ),
         // : Image.network(
         //     logo,

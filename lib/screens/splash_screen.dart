@@ -1,7 +1,6 @@
-import 'package:code_lab/controllers/login_controller.dart';
-import 'package:code_lab/localStorage/pref.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../color_constant.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -12,15 +11,19 @@ class SplashScreen extends StatelessWidget {
     // final lo = Get.put(LocalStorage());
     // final l = Get.put(LoginController());
     return Scaffold(
+      backgroundColor: ColorConstant.yellow700,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const SizedBox(),
           Center(
-            child: Image.asset(
-              "assets/images/logo.png",
-              width: Get.width * 0.6,
+            child: Text(
+              "CODELAB",
+              style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
             ),
+            // child: Image.asset(
+            //   "assets/images/logo.png",
+            //   width: Get.width * 0.6,
           ),
           const Padding(
             padding: EdgeInsets.all(18.0),

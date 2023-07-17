@@ -7,7 +7,9 @@ class Deal {
   String? descriptionArabic;
   String? coupon;
   String? link;
-  List<Null>? tags;
+  String? lastUsed;
+  String? usedTimes;
+  List<String?>? tags;
   int? index;
   int? iV;
   String? image;
@@ -23,6 +25,8 @@ class Deal {
       this.link,
       this.tags,
       this.index,
+      this.lastUsed,
+      this.usedTimes,
       this.iV,
       this.image});
 
@@ -35,13 +39,10 @@ class Deal {
     descriptionArabic = json['description_arabic'];
     coupon = json['coupon'];
     link = json['link'];
-    // if (json['tags'] != null) {
-    //   tags = <Null>[];
-    //   json['tags'].forEach((v) {
-    //     tags!.add(Null.fromJson(v));
-    //   });
-    // }
+    tags = json['tags'].cast<String>();
     index = json['index'];
+    lastUsed = json["last_used"];
+    usedTimes = json["used_times"];
     iV = json['__v'];
     image = json['image'];
   }

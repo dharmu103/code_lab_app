@@ -1,10 +1,15 @@
 import 'package:code_lab/controllers/home_controller.dart';
 import 'package:code_lab/localStorage/pref.dart';
+import 'package:code_lab/models/banner_list_model.dart';
+import 'package:code_lab/models/carousel_list.dart';
 import 'package:code_lab/routes/pages.dart';
+import 'package:code_lab/screens/details/details_screen.dart';
+import 'package:code_lab/screens/search_screen.dart';
 import 'package:code_lab/services/remote_services.dart';
 import 'package:code_lab/theme/colors.dart';
 import 'package:code_lab/widgets/cards/card_1.dart';
 import 'package:code_lab/widgets/cards/card_2.dart';
+import 'package:code_lab/widgets/carousel.dart';
 import 'package:code_lab/widgets/search_box_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,23 +28,35 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
           body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.lightBlue.shade300.withOpacity(.08),
-              Colors.lightBlue.shade100.withOpacity(0.8)
-            ],
-          ),
-        ),
+            // gradient: LinearGradient(
+            //   begin: Alignment.topCenter,
+            //   end: Alignment.bottomCenter,
+            //   colors: [
+            //     Colors.lightBlue.shade300.withOpacity(.08),
+            //     Colors.lightBlue.shade100.withOpacity(0.8)
+            //   ],
+            // ),
+            ),
         child: Stack(
           children: [
             SingleChildScrollView(
               child: Container(
-                width: Get.width,
                 child: Column(
+                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    searchBox(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    // Image.asset(
+                    //   "assets/images/logo.png",
+                    //   height: 40,
+                    // ),
+                    Text(
+                      "CODELAB",
+                      style:
+                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                    ),
+                    Container(height: 70, child: searchBox()),
 
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -96,7 +113,9 @@ class HomeScreen extends StatelessWidget {
                         return ListView.builder(
                             shrinkWrap: true,
                             physics: const ScrollPhysics(),
-                            itemCount: _.brands!.brands?.length ?? 0,
+                            itemCount: _.brands!.brands!.length >= 5
+                                ? 6
+                                : _.brands!.brands?.length ?? 0,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: ((context, index) {
                               if (_.brands!.brands!.length <= index) {
@@ -114,22 +133,25 @@ class HomeScreen extends StatelessWidget {
                                   child: card1(_.brands!.brands![index]),
                                 );
                               }
+                              if (index == 5) {
+                                return Container(
+                                    margin: const EdgeInsets.only(right: 18.0),
+                                    child: seeAllcard1());
+                              }
                               return card1(_.brands!.brands![index]);
                             }));
                       }),
                     ),
+                    // const SizedBox(
+                    //   height: 20,
+                    // ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FutureBuilder(
-                          future: getBanner(),
-                          builder: (c, s) {
-                            if (s.hasData) return card2(s.data);
-                            return democard2();
-                          }),
-                    ),
+                    GetBuilder<HomeController>(builder: (_) {
+                      return carousels(_.carouselList);
+                    }),
+
                     const SizedBox(
                       height: 10,
                     ),
@@ -166,7 +188,7 @@ class HomeScreen extends StatelessWidget {
                                     "login".tr + " / " + 'signup'.tr,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        color: Colors.indigo,
+                                        color: primaryColor,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 )
@@ -249,7 +271,11 @@ class HomeScreen extends StatelessWidget {
                         return ListView.builder(
                             shrinkWrap: true,
                             physics: const ScrollPhysics(),
-                            itemCount: _.homeModel?.deals?.length ?? 0,
+                            itemCount: _.homeModel?.deals?.length == null
+                                ? 0
+                                : _.homeModel!.deals!.length >= 5
+                                    ? 6
+                                    : _.homeModel?.deals?.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: ((context, index) {
                               if (index == 0) {
@@ -266,13 +292,69 @@ class HomeScreen extends StatelessWidget {
                                       context, _.homeModel!.deals![index]),
                                 );
                               }
+                              if (index == 5) {
+                                return Container(
+                                    margin: const EdgeInsets.only(right: 18.0),
+                                    child: seeAllcard3());
+                              }
                               return card3(context, _.homeModel!.deals![index]);
                             }));
                       }),
                     ),
                     const SizedBox(
                       height: 10,
-                    )
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FutureBuilder<BannerList?>(
+                          future: getBanner(),
+                          builder: (c, s) {
+                            if (s.hasError) {
+                              return Container(
+                                child: Text("error"),
+                              );
+                            }
+                            if (s.hasData) {
+                              return Column(
+                                children: List.generate(
+                                    s.data?.banner?.length ?? 0,
+                                    (index) => Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 20),
+                                          child: GetBuilder<HomeController>(
+                                            init: HomeController(),
+                                            initState: (_) {},
+                                            builder: (_) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  Get.to(TopDeal(
+                                                      args: _.brands!.brands!
+                                                          .firstWhere(
+                                                              (element) =>
+                                                                  element.sId ==
+                                                                  s
+                                                                      .data
+                                                                      ?.banner?[
+                                                                          index]
+                                                                      .store)));
+                                                },
+                                                child: BannerCard(
+                                                  s.data?.banner?[index].image,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                          // child: Text(
+                                          //     s.data?.banner?[index].image ??
+                                          //         "No Image"),
+                                        )),
+                              );
+                            }
+                            ;
+
+                            return Container();
+                          }),
+                    ),
                   ],
                 ),
               ),
@@ -285,7 +367,8 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-getBanner() {
-  var res = RemoteService.getBanner();
+Future<BannerList?> getBanner() async {
+  var res = await RemoteService.getBanner();
+  print(res?.banner?.length ?? "No Banner Found");
   return res;
 }

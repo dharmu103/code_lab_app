@@ -10,8 +10,8 @@ import 'brands_screen.dart';
 import 'profile_screen.dart';
 
 class MainHome extends StatefulWidget {
-  const MainHome({super.key});
-
+  MainHome({super.key, this.currentpage});
+  int? currentpage;
   @override
   State<MainHome> createState() => _MainHomeState();
 }
@@ -25,8 +25,15 @@ class _MainHomeState extends State<MainHome> {
     // final prefcontroller = Get.put(LocalStorage());
     // final logincontroller = Get.put(LoginController());
     final controller = Get.put(HomeController());
+    @override
+    initState() {
+      widget.currentpage = currentIndex;
+    }
+
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
+            selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+            unselectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
             selectedItemColor: primaryColor,
             currentIndex: currentIndex,
             onTap: (value) {

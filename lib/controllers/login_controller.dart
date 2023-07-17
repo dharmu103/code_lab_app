@@ -4,6 +4,7 @@ import 'package:code_lab/routes/pages.dart';
 import 'package:code_lab/services/remote_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:progress_state_button/progress_button.dart';
 
 class LoginController extends GetxController {
@@ -20,6 +21,33 @@ class LoginController extends GetxController {
     await getProfile();
     Get.offAllNamed(Routes.HOME);
     super.onReady();
+  }
+
+  Future<String?> loginWithThirdParty() async {
+    final GoogleSignIn _googleSignIn = GoogleSignIn();
+    // btnstate = ButtonState.loading;
+    // update();
+    GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+    print(googleSignInAccount?.email);
+    String? res = await RemoteService.loginWithThirdParty(
+        {"email": googleSignInAccount!.email, "thirdparty": "GOOGLE"});
+    await _googleSignIn.signOut();
+    print(res);
+    // // if (res == "") {
+    // //   btnstate = ButtonState.success;
+    // // } else {
+    // //   btnstate = ButtonState.fail;
+    // // }
+    // // update();
+
+    // await Future.delayed(const Duration(seconds: 1), () {
+    //   return res;
+    // });
+    // // btnstate = ButtonState.idle;
+    // // update();
+    Get.find<LocalStorage>().setAccessToken();
+
+    return res;
   }
 
   Future<String?> loginWithEmailPassword() async {
@@ -76,6 +104,40 @@ class LoginController extends GetxController {
     update();
     Get.find<LocalStorage>().setAccessToken();
     await getProfile();
+
+    return res;
+  }
+
+  signupWithThirdParty() async {
+    final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+    GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+    print(googleSignInAccount?.displayName);
+    String? res = await RemoteService.signupWithEmailandPassword({
+      "email": googleSignInAccount!.email,
+      "first_name": googleSignInAccount.displayName!,
+      "last_name": "",
+      "thirdparty": "GOOGLE"
+    });
+    _googleSignIn.signOut();
+    // print(res);
+    // if (res == "") {
+    //   btnstate = ButtonState.success;
+    //   update();
+    // } else {
+    //   btnstate = ButtonState.fail;
+    //   update();
+    // }
+
+    update();
+    await Future.delayed(const Duration(seconds: 1), () {
+      return res;
+    });
+    btnstate = ButtonState.idle;
+
+    // update();
+    Get.find<LocalStorage>().setAccessToken();
+    await getProfile();
     return res;
   }
 
@@ -103,5 +165,9 @@ class LoginController extends GetxController {
     user = RemoteService.user;
     update();
     return "";
+  }
+
+  logout() {
+    update();
   }
 }

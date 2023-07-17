@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:code_lab/color_constant.dart';
 import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/models/HomePage_dela.dart';
 import 'package:code_lab/theme/colors.dart';
@@ -59,59 +60,70 @@ Widget card4(context, HomeDeals deal) {
           const SizedBox(
             height: 10,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const SizedBox(
-                width: 20,
-              ),
-              Container(
-                width: 100,
-                height: 70,
-                // color: Colors.grey.shade200,
-                child: Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: SizedBox(
-                      width: 70,
-                      height: 70,
-                      child: deal.image == null
-                          ? Image.asset("assets/images/no-image.png")
-                          : CachedNetworkImage(
-                              imageUrl: deal.image.toString(),
-                              fit: BoxFit.fill,
-                            )),
-                  // : Image.network(
-                  //     deal.image.toString(),
-                  //     fit: BoxFit.fill,
-                  //   )),
-                  // child:Image.network(deal.),
+          Container(
+            width: Get.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const SizedBox(
+                  width: 20,
                 ),
-              ),
-              const Spacer(),
-              deal.coupon == ""
-                  ? Container()
-                  : SizedBox(
-                      width: Get.width * 0.4,
-                      child: CopyCode(
-                        text: deal.coupon,
-                        onpress: () async {
-                          await Clipboard.setData(
-                              ClipboardData(text: deal.coupon.toString()));
-                          // copied successfully
-                        },
-                      )),
-              const SizedBox(
-                width: 20,
-              ),
-            ],
+                Container(
+                  width: 100,
+                  height: 70,
+                  // color: Colors.grey.shade200,
+                  child: Padding(
+                    padding: const EdgeInsets.all(0),
+                    child: SizedBox(
+                        width: 70,
+                        height: 70,
+                        child: deal.image == null
+                            ? Image.asset("assets/images/no-image.png")
+                            : CachedNetworkImage(
+                                imageUrl: deal.image.toString(),
+                                fit: BoxFit.fill,
+                              )),
+                    // : Image.network(
+                    //     deal.image.toString(),
+                    //     fit: BoxFit.fill,
+                    //   )),
+                    // child:Image.network(deal.),
+                  ),
+                ),
+                const Spacer(),
+                deal.coupon == ""
+                    ? Container()
+                    : SizedBox(
+                        width: Get.width * 0.4,
+                        child: CopyCode(
+                          text: deal.coupon,
+                          onpress: () async {
+                            await Clipboard.setData(
+                                ClipboardData(text: deal.coupon.toString()));
+                            // copied successfully
+                          },
+                        )),
+                const SizedBox(
+                  width: 20,
+                ),
+              ],
+            ),
           ),
           Container(
             width: Get.width,
             child: Padding(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
               child: LocalStorage.language == 'Arabic'
-                  ? Text(deal.descriptionArabic.toString())
-                  : Text(deal.description.toString()),
+                  ? Text(
+                      deal.descriptionArabic.toString(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  : Text(deal.description.toString(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      )),
             ),
           ),
           // Container(
@@ -137,18 +149,17 @@ Widget card4(context, HomeDeals deal) {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
+                  color: ColorConstant.fromHex("#F6F5F7"),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Text(
                   'used'.tr +
                       ' ' +
-                      '${Random().nextInt(
-                            100000,
-                          ) + 100000}' +
+                      '${deal.usedTimes ?? ""}' +
                       ' ' +
                       'times'.tr,
-                  style: TextStyle(color: Colors.indigo),
+                  style: TextStyle(
+                      color: primaryColor, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(
@@ -158,16 +169,14 @@ Widget card4(context, HomeDeals deal) {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
+                  color: ColorConstant.fromHex("#E6FEE6"),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Text(
-                  "last_used".tr +
-                      " " +
-                      '${Random().nextInt(10).toString()}' +
-                      " " +
-                      "min_ago".tr,
-                  style: TextStyle(color: kGreen),
+                  "last_used".tr + " " + '${deal.lastUsed ?? ""} ',
+                  style: TextStyle(
+                      color: ColorConstant.fromHex("#00682F"),
+                      fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -196,17 +205,21 @@ Widget card4(context, HomeDeals deal) {
                   )),
               const Spacer(),
               IconButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.shade200,
-                  ),
-                  onPressed: () {
-                    Share.share('check out my website ${deal.link}',
-                        subject: 'Look what I made!');
-                  },
-                  icon: const Icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorConstant.yellow700,
+                ),
+                onPressed: () {
+                  Share.share('check out my website ${deal.link}',
+                      subject: 'Look what I made!');
+                },
+                icon: CircleAvatar(
+                  backgroundColor: ColorConstant.yellow700,
+                  child: Icon(
                     Icons.share,
-                    color: Colors.indigo,
-                  )),
+                    color: primaryColor,
+                  ),
+                ),
+              ),
               const SizedBox(
                 width: 20,
               ),

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:code_lab/models/HomePage_dela.dart';
 import 'package:code_lab/models/deals_list.dart';
 import 'package:code_lab/models/store_model.dart';
+import 'package:code_lab/routes/pages.dart';
 import 'package:code_lab/services/remote_services.dart';
 import 'package:code_lab/widgets/buttons/get_code.dart';
 import 'package:code_lab/widgets/cards/card_4.dart';
@@ -52,13 +53,11 @@ import '../../widgets/dailogs/code_dailog.dart';
 // }
 
 class TopDeal extends StatelessWidget {
-  TopDeal({
-    super.key,
-  });
-
+  TopDeal({super.key, required this.args});
+  Brands args;
   @override
   Widget build(BuildContext context) {
-    Brands args = Get.arguments;
+    // Brands args = Get.arguments;
     getDeals() {
       print(args.sId);
       return RemoteService.fatchDealsByStore(args);
@@ -75,7 +74,7 @@ class TopDeal extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.arrow_back, size: 35),
                   onPressed: () {
-                    Get.back();
+                    Get.toNamed(Routes.HOME);
                   },
                 ),
                 // IconButton(

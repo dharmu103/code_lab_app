@@ -54,7 +54,9 @@ dependencies:
   image_cropper: ^4.0.1
   image_picker: ^0.8.7+5
   cached_network_image: ^3.2.3
-
+  carousel_slider: ^4.2.1
+  firebase_core: ^2.14.0
+  google_sign_in: ^6.1.4
 dev_dependencies:
   flutter_test:
     sdk: flutter

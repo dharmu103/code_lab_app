@@ -41,7 +41,7 @@ class SignupScreen extends StatelessWidget {
                     Expanded(
                         child: textfields(
                             controller.fnameTextController, "f_name".tr, (v) {
-                      return v.trim().toString().isEmpty
+                      return v.trim().toString().isNotEmpty
                           ? null
                           : "Please enter valid first name.";
                     })),
@@ -51,7 +51,7 @@ class SignupScreen extends StatelessWidget {
                     Expanded(
                         child: textfields(
                             controller.lnameTextController, "l_name".tr, (v) {
-                      return v.trim().toString().isEmpty
+                      return v.trim().toString().isNotEmpty
                           ? null
                           : "Please enter valid last name.";
                     })),
@@ -70,7 +70,8 @@ class SignupScreen extends StatelessWidget {
                 ),
                 textfields(controller.passwordTextController, "password".tr,
                     (v) {
-                  return v.trim().toString().isEmpty || v.toString().length < 8
+                  return v.trim().toString().isNotEmpty ||
+                          v.toString().length < 8
                       ? null
                       : "Password must be atleast 8 characters.";
                 }),
@@ -116,33 +117,42 @@ class SignupScreen extends StatelessWidget {
                 const SizedBox(
                   height: 25,
                 ),
-                // Container(
-                //   padding: const EdgeInsets.symmetric(horizontal: 1),
-                //   width: Get.width,
-                //   height: 50,
-                //   child: ElevatedButton(
-                //     style: ElevatedButton.styleFrom(
-                //         elevation: 0,
-                //         shape: RoundedRectangleBorder(
-                //             side: const BorderSide(width: 0.1),
-                //             borderRadius: BorderRadius.circular(12)),
-                //         backgroundColor: Colors.white,
-                //         foregroundColor: Colors.blue),
-                //     child: Row(
-                //       children: [
-                //         Padding(
-                //           padding: const EdgeInsets.all(4.0),
-                //           child: Image.asset("assets/images/googleicon.png"),
-                //         ),
-                //         const Spacer(),
-                //         Text("create_with_google".tr),
-                //         const Spacer(),
-                //         const Spacer()
-                //       ],
-                //     ),
-                //     onPressed: () {},
-                //   ),
-                // ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 1),
+                  width: Get.width,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            side: const BorderSide(width: 0.1),
+                            borderRadius: BorderRadius.circular(12)),
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.blue),
+                    child: Row(
+                      children: [
+                        const Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Image.asset("assets/images/googleicon.png"),
+                        ),
+                        const Spacer(),
+                        Text("create_with_google".tr),
+                        const Spacer(),
+                        const Spacer()
+                      ],
+                    ),
+                    onPressed: () async {
+                      String? res = await controller.signupWithThirdParty();
+                      if (res == "") {
+                        Get.toNamed(Routes.HOME);
+                      } else {
+                        Get.snackbar("Signup Failed", res.toString(),
+                            backgroundColor: Colors.red, colorText: kWhite);
+                      }
+                    },
+                  ),
+                ),
                 const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
