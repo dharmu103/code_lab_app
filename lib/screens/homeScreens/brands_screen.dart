@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:code_lab/controllers/home_controller.dart';
+import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/screens/details/details_screen.dart';
 import 'package:code_lab/theme/colors.dart';
 import 'package:code_lab/widgets/chips/chips.dart';
@@ -48,27 +49,26 @@ class BrandsScreen extends StatelessWidget {
                             itemBuilder: ((context, index) {
                               if (index == 0) {
                                 return CustomChips(
-                                  text: controller
-                                      .categoriesList?.categories?[index],
-                                );
+                                    text: LocalStorage.language == "Arabic"
+                                        ? "${controller.categoriesList?.categories?[index].nameArabic}"
+                                        : "${controller.categoriesList?.categories?[index].name}");
                               }
                               if (index ==
                                   controller
                                           .categoriesList!.categories!.length -
                                       1) {
                                 return Padding(
-                                  padding: const EdgeInsets.only(right: 20.0),
-                                  child: CustomChips(
-                                    text: controller
-                                        .categoriesList?.categories?[index],
-                                  ),
-                                );
+                                    padding: const EdgeInsets.only(right: 20.0),
+                                    child: CustomChips(
+                                        text: LocalStorage.language == "Arabic"
+                                            ? "${controller.categoriesList?.categories?[index].nameArabic}"
+                                            : "${controller.categoriesList?.categories?[index].name}"));
                               }
 
                               return CustomChips(
-                                text: controller
-                                    .categoriesList?.categories?[index],
-                              );
+                                  text: LocalStorage.language == "Arabic"
+                                      ? "${controller.categoriesList?.categories?[index].nameArabic}"
+                                      : "${controller.categoriesList?.categories?[index].name}");
                             })),
                       ),
                       Divider(),

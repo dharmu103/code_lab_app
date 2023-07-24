@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
+import '../localStorage/pref.dart';
 
 Widget carousels(CarouselList? carouselList) {
   return Column(
@@ -18,7 +19,10 @@ Widget carousels(CarouselList? carouselList) {
                       const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                   child: Row(
                     children: [
-                      Text(carouselList?.carousel?[index].header ?? "",
+                      Text(
+                          LocalStorage.language == "Arabic"
+                              ? '${carouselList?.carousel?[index].headerArabic}'
+                              : carouselList?.carousel?[index].header ?? "",
                           style: const TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold)),
                     ],
@@ -26,7 +30,11 @@ Widget carousels(CarouselList? carouselList) {
                 ),
                 CarouselSlider(
                   options: CarouselOptions(
-                      autoPlay: true,
+                      padEnds: false,
+                      // initialPage: 1,
+                      disableCenter: true,
+                      autoPlay: false,
+                      enableInfiniteScroll: false,
                       height: Get.width * 0.55,
                       viewportFraction: 0.35),
                   items: carouselList?.carousel![index].images?.map((i) {

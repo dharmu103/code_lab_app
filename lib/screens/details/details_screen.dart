@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/models/HomePage_dela.dart';
 import 'package:code_lab/models/deals_list.dart';
 import 'package:code_lab/models/store_model.dart';
@@ -8,7 +9,7 @@ import 'package:code_lab/widgets/buttons/get_code.dart';
 import 'package:code_lab/widgets/cards/card_4.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:code_lab/theme/colors.dart';
 import '../../models/deals_model.dart';
 import '../../widgets/dailogs/code_dailog.dart';
 
@@ -65,7 +66,7 @@ class TopDeal extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.blue.shade100,
+        backgroundColor: primaryColor,
         body: ListView(
           children: [
             Row(
@@ -116,7 +117,9 @@ class TopDeal extends StatelessWidget {
                             height: 10,
                           ),
                           Text(
-                            args.name.toString(),
+                            LocalStorage.language == "Arabic"
+                                ? args.nameArabic.toString()
+                                : args.name.toString(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
@@ -174,13 +177,18 @@ class TopDeal extends StatelessWidget {
                                                 text: snapshot.data!.deal?[i]
                                                             .coupon ==
                                                         null
-                                                    ? "Get Deal"
-                                                    : "Get Code",
+                                                    ? "get_deal".tr
+                                                    : "get_code".tr,
                                               ),
                                               title: Text(
-                                                snapshot
-                                                    .data!.deal![i].description
-                                                    .toString(),
+                                                LocalStorage.language ==
+                                                        "Arabic"
+                                                    ? snapshot.data!.deal![i]
+                                                        .descriptionArabic
+                                                        .toString()
+                                                    : snapshot.data!.deal![i]
+                                                        .description
+                                                        .toString(),
                                               )),
                                           Divider(
                                             color: Colors.grey.shade300,

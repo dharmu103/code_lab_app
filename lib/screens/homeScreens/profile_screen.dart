@@ -294,26 +294,26 @@ class ProfileScreen extends StatelessWidget {
                         });
                   },
                 ),
-                Obx(() => SwitchListTile(
-                      value: LocalStorage().notification.value,
-                      secondary: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: ColorConstant.yellow700,
-                          ),
-                          child: Icon(
-                            Icons.notifications_none_outlined,
-                            color: Colors.black,
-                          )),
-                      title: const Text('Notifications',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14)),
-                      onChanged: (bool? value) {
-                        //  changeNotification()
-                      },
-                    )),
+                // Obx(() => SwitchListTile(
+                //       value: LocalStorage().notification.value,
+                //       secondary: Container(
+                //           width: 40,
+                //           height: 40,
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(100),
+                //             color: ColorConstant.yellow700,
+                //           ),
+                //           child: Icon(
+                //             Icons.notifications_none_outlined,
+                //             color: Colors.black,
+                //           )),
+                //       title: const Text('Notifications',
+                //           style: TextStyle(
+                //               fontWeight: FontWeight.bold, fontSize: 14)),
+                //       onChanged: (bool? value) {
+                //         //  changeNotification()
+                //       },
+                //     )),
                 const Divider(),
                 const SizedBox(height: 10),
                 const Divider(),

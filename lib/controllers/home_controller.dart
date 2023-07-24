@@ -22,7 +22,7 @@ class HomeController extends GetxController {
   List<HomeDeals>? filteredDeal = [];
   bool searchLoading = false;
   CarouselList? carouselList = CarouselList();
-  CategoriesList? categoriesList = CategoriesList();
+  CatagoriesList? categoriesList = CatagoriesList();
   String? filterText = '';
   @override
   onInit() {
@@ -51,10 +51,10 @@ class HomeController extends GetxController {
   }
 
   getCountries() async {
-    var res = await RemoteService.fatchCounties();
-    //print(res);
+    var res = await RemoteService.fatchCountry();
+    print(res);
     countryList = res;
-    //print(countryList?.countries?.length);
+    print(countryList?.countries?.length);
     update();
   }
 
@@ -66,7 +66,7 @@ class HomeController extends GetxController {
 
   searchAlgo(text) async {
     searchDeal?.clear();
-
+    searchStore?.clear();
     if (text == null || text == "") {
       searchDeal?.clear();
       searchStore?.clear();
@@ -111,7 +111,7 @@ class HomeController extends GetxController {
     update();
   }
 
-  Future<CategoriesList?> fatchCatagory() async {
+  Future<CatagoriesList?> fatchCatagory() async {
     categoriesList = await RemoteService.fatchCatagory();
     update();
     return categoriesList;

@@ -47,15 +47,15 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    // Image.asset(
-                    //   "assets/images/logo.png",
-                    //   height: 40,
-                    // ),
-                    Text(
-                      "CODELAB",
-                      style:
-                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                    Image.asset(
+                      "assets/images/logo.png",
+                      height: 50,
                     ),
+                    // Text(
+                    //   "CODELAB",
+                    //   style:
+                    //       TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                    // ),
                     Container(height: 70, child: searchBox()),
 
                     Padding(

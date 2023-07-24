@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:progress_state_button/progress_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
   ButtonState btnstate = ButtonState.idle;
@@ -18,8 +19,12 @@ class LoginController extends GetxController {
   @override
   onReady() async {
     await Future.delayed(const Duration(seconds: 3));
-    await getProfile();
-    Get.offAllNamed(Routes.HOME);
+    final pref = await SharedPreferences.getInstance();
+    if (pref.getBool("isFirstTime") == false) {
+      await getProfile();
+      Get.toNamed(Routes.HOME);
+    }
+
     super.onReady();
   }
 

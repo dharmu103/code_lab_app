@@ -1,4 +1,7 @@
 import 'package:code_lab/controllers/home_controller.dart';
+import 'package:code_lab/models/country_list.dart';
+import 'package:code_lab/routes/pages.dart';
+import 'package:code_lab/services/remote_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,13 +11,25 @@ class LocalStorage extends GetxController {
   static String? language = 'English'.tr;
   static String? country = 'UAE'.tr;
   RxBool notification = true.obs;
+  CountryList? countries = CountryList();
   @override
   void onInit() {
-    setAccessToken();
-    setLanguageToken();
-    setCountryToken();
     // print(country);
+    isFirstTimeUser();
     super.onInit();
+  }
+
+  isFirstTimeUser() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getBool("isFirstTime") == null) {
+      await Future.delayed(Duration(seconds: 3));
+      await fatchCountry();
+      Get.offAllNamed(Routes.SELECTCOUNTRYANDLANGUAGE);
+    } else {
+      setAccessToken();
+      setLanguageToken();
+      setCountryToken();
+    }
   }
 
   setAccessToken() async {
@@ -63,6 +78,12 @@ class LocalStorage extends GetxController {
   updataData() async {
     await Get.find<HomeController>().getStores();
     await Get.find<HomeController>().getDeals();
+    update();
+  }
+
+  fatchCountry() async {
+    var res = await RemoteService.fatchCountry();
+    countries = res;
     update();
   }
 }

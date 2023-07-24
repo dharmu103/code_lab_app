@@ -221,7 +221,7 @@ class RemoteService {
     return BannerList.fromJson(resp);
   }
 
-  static fatchCounties() async {
+  static Future<CountryList> fatchCountry() async {
     try {
       http.Response res = await http.get(
           headers: headers,
@@ -237,7 +237,7 @@ class RemoteService {
     } catch (e) {
       //// print(e.toString());
     }
-    return null;
+    return CountryList();
   }
 
   static shareReferLink() async {
@@ -274,15 +274,16 @@ class RemoteService {
     }
   }
 
-  static Future<CategoriesList?> fatchCatagory() async {
+  static Future<CatagoriesList?> fatchCatagory() async {
     try {
       http.Response res = await http.get(
         headers: headers,
         Uri.parse("$baseUrl/no-auth/categories"),
       );
       var resp = jsonDecode(res.body);
+      print(resp);
       //// print(resp);
-      return CategoriesList.fromJson(resp);
+      return CatagoriesList.fromJson(resp);
     } catch (e) {
       //// print(e.toString());
     }

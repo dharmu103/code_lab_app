@@ -17,14 +17,14 @@ class SplashScreen extends StatelessWidget {
         children: [
           const SizedBox(),
           Center(
-            child: Text(
-              "CODELAB",
-              style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-            ),
-            // child: Image.asset(
-            //   "assets/images/logo.png",
-            //   width: Get.width * 0.6,
-          ),
+              // child: Text(
+              //   "CODELAB",
+              //   style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+              // ),
+              child: Image.asset(
+            "assets/images/logo.png",
+            width: Get.width * 0.6,
+          )),
           const Padding(
             padding: EdgeInsets.all(18.0),
             child: SizedBox(

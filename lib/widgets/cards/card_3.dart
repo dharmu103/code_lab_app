@@ -116,7 +116,7 @@ Widget card3(context, HomeDeals deal) {
               padding: EdgeInsets.symmetric(horizontal: 8),
               width: Get.width,
               child: GetCode(
-                text: deal.coupon == "" ? 'Get Deal' : 'Get Code',
+                text: deal.coupon == "" ? 'get_deal'.tr : 'get_code'.tr,
                 onpress: () {
                   if (deal.coupon == "") {
                     launchUrlDeal(deal);

@@ -71,4 +71,9 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation("androidx.core:core:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.4.0")
+    implementation("androidx.lifecycle:lifecycle-process:2.5.1")
+    implementation("com.moengage:moe-android-sdk:12.8.00")
 }

@@ -1,6 +1,7 @@
 import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/screens/authScreens/login_screen.dart';
 import 'package:code_lab/screens/authScreens/signup_screen.dart';
+import 'package:code_lab/screens/first_screen.dart';
 import 'package:code_lab/screens/homeScreens/brands_screen.dart';
 import 'package:code_lab/screens/homeScreens/main_home.dart';
 import 'package:code_lab/screens/splash_screen.dart';
@@ -16,6 +17,10 @@ abstract class AppPages {
     GetPage(
       name: Routes.INITIAL,
       page: () => const SplashScreen(),
+    ),
+    GetPage(
+      name: Routes.SELECTCOUNTRYANDLANGUAGE,
+      page: () => const FirstScreen(),
     ),
     GetPage(
       name: Routes.HOME,
