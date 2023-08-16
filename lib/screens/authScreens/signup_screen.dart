@@ -97,7 +97,7 @@ class SignupScreen extends StatelessWidget {
                           String? res =
                               await controller.signupWithEmailPassword();
                           if (res == "") {
-                            Get.toNamed(Routes.HOME);
+                            Get.offAllNamed(Routes.HOME);
                           } else {
                             Get.snackbar("Signup Failed", res.toString(),
                                 backgroundColor: Colors.red, colorText: kWhite);

@@ -15,6 +15,7 @@ class HomeController extends GetxController {
 
   BrandsList? brands = BrandsList();
   HomeModel? homeModel = HomeModel();
+  HomeModel? homeModelOne = HomeModel();
   CountryList? countryList = CountryList();
   Root? referDetail = Root();
   List<HomeDeals>? searchDeal = [];
@@ -23,7 +24,7 @@ class HomeController extends GetxController {
   bool searchLoading = false;
   CarouselList? carouselList = CarouselList();
   CatagoriesList? categoriesList = CatagoriesList();
-  String? filterText = '';
+  String? filterText = 'All';
   @override
   onInit() {
     getStores();
@@ -32,14 +33,32 @@ class HomeController extends GetxController {
     getReferDetails();
     fatchCarousel();
     fatchCatagory();
+    // getDealsAll();
     super.onInit();
+  }
+
+  @override
+  onReady() {
+    getDealsAll();
+    super.onReady();
   }
 
   getDeals() async {
     var res = await RemoteService.fatchDeals();
     //print('stores ' + res!.deals!.length.toString());
+    homeModelOne = res;
+    // filteredDeal = homeModelOne?.deals;
+    print(homeModelOne?.deals?.length.toString());
+    update();
+  }
+
+  getDealsAll() async {
+    var res = await RemoteService.fatchDealsAlls();
+    //print('stores ' + res!.deals!.length.toString());
     homeModel = res;
     filteredDeal = homeModel?.deals;
+    print("length");
+    print(homeModel?.deals?.length.toString());
     update();
   }
 
@@ -81,6 +100,17 @@ class HomeController extends GetxController {
                 .toLowerCase()
                 .startsWith(text.toString().toLowerCase()) ||
             element.description!
+                .startsWith(text.toString().camelCase.toString()) ||
+            element.nameArabic!
+                .toLowerCase()
+                .startsWith(text.toString().toLowerCase()) ||
+            element.nameArabic!
+                .startsWith(text.toString().camelCase.toString()) ||
+            (element.nameArabic!.startsWith(text.toString().toLowerCase())) ||
+            element.descriptionArabic!
+                .toLowerCase()
+                .startsWith(text.toString().toLowerCase()) ||
+            element.descriptionArabic!
                 .startsWith(text.toString().camelCase.toString())) {
           searchDeal?.add(element);
         }
@@ -93,6 +123,15 @@ class HomeController extends GetxController {
             element.name!.startsWith(text.toString().camelCase.toString()) ||
             (element.name!.startsWith(text.toString().toLowerCase())) ||
             element.name!
+                .toLowerCase()
+                .startsWith(text.toString().toLowerCase()) ||
+            element.nameArabic!
+                .toLowerCase()
+                .startsWith(text.toString().toLowerCase()) ||
+            element.nameArabic!
+                .startsWith(text.toString().camelCase.toString()) ||
+            (element.nameArabic!.startsWith(text.toString().toLowerCase())) ||
+            element.nameArabic!
                 .toLowerCase()
                 .startsWith(text.toString().toLowerCase())) {
           searchStore?.add(element);
@@ -113,13 +152,16 @@ class HomeController extends GetxController {
 
   Future<CatagoriesList?> fatchCatagory() async {
     categoriesList = await RemoteService.fatchCatagory();
+    var initaialCat = Categories(name: "All", nameArabic: 'الكل');
+    categoriesList?.categories?.insert(0, initaialCat);
     update();
     return categoriesList;
   }
 
   filterDeal(filter) {
-    if (filterText == filter) {
-      filterText = "";
+    print(filter);
+    if (filterText == filter || filter == "All") {
+      filterText = "All";
       filteredDeal = homeModel?.deals;
       update();
     } else {

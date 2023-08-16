@@ -25,8 +25,8 @@ Widget searchBox() {
               onTap: () {
                 Get.toNamed(Routes.SEARCH);
               },
-              decoration: const InputDecoration(
-                  border: InputBorder.none, hintText: "Search here..."),
+              decoration: InputDecoration(
+                  border: InputBorder.none, hintText: "search_here".tr),
             ),
           ),
           const Icon(
@@ -64,8 +64,8 @@ Widget searchBoxField(onchange(v)) {
               onChanged: (v) {
                 onchange(v);
               },
-              decoration: const InputDecoration(
-                  border: InputBorder.none, hintText: "Search here..."),
+              decoration: InputDecoration(
+                  border: InputBorder.none, hintText: "search_here".tr),
             ),
           ),
           const Icon(

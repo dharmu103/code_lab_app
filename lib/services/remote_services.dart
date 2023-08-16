@@ -18,6 +18,7 @@ import '../models/store_model.dart';
 class RemoteService {
   static late String token;
   static const String baseUrl = "http://54.159.201.11:3000/app";
+  // static const String baseUrl = "http://192.168.43.14:3000/app";
   static const String noAuth = "no-auth";
   static const headers = {'Content-Type': 'application/json'};
 
@@ -93,6 +94,33 @@ class RemoteService {
     }
   }
 
+  static Future sendEmailOtp(map) async {
+    http.Response res = await http.post(
+        Uri.parse(baseUrl + '/auth/send-email-otp'),
+        headers: authHeader,
+        body: jsonEncode(map));
+
+    if (res.statusCode == 200) {
+      var resp = jsonDecode(res.body);
+      return resp;
+    } else {
+      return jsonDecode(res.body)["message"];
+    }
+  }
+
+  static Future verifyEmailOtp(map) async {
+    http.Response res = await http.post(
+        Uri.parse(baseUrl + '/auth/verify-email-otp'),
+        headers: authHeader,
+        body: jsonEncode(map));
+    if (res.statusCode == 200) {
+      var resp = jsonDecode(res.body);
+      return resp;
+    } else {
+      return null;
+    }
+  }
+
   static Future<BrandsList?> fatchStores() async {
     var country = LocalStorage.country;
     http.Response res = await http.get(
@@ -132,16 +160,34 @@ class RemoteService {
 
   static Future<HomeModel?> fatchDeals() async {
     var country = LocalStorage.country;
-    //// print(country);
+    print("$baseUrl/no-auth/home?country=$country");
     http.Response res = await http.get(
         // Uri.parse(baseUrl + no_auth + "/home?country=$country"),
-        Uri.parse("$baseUrl/no-auth/home?country=$country"));
+        Uri.parse("$baseUrl/no-auth/home?country=${country}"));
 
     var resp = jsonDecode(res.body);
 
     if (res.statusCode == 200) {
-      //// print(res.statusCode);
-      //// print(resp["deals"]);
+      print(res.statusCode);
+      print(resp["deals"]);
+      return HomeModel.fromJson(resp);
+    }
+    return null;
+  }
+
+  static Future<HomeModel?> fatchDealsAlls() async {
+    var country = LocalStorage.country;
+    // print("$baseUrl/no-auth/home?country=$country");
+    http.Response res = await http.get(
+        // Uri.parse(baseUrl + no_auth + "/home?country=$country"),
+        // http://localhost:3000/app/no-auth/home
+        Uri.parse("$baseUrl/no-auth/deals?country=$country&view_all=false"));
+
+    var resp = jsonDecode(res.body);
+
+    if (res.statusCode == 200) {
+      print(res.statusCode);
+      print(resp["deals"]);
       return HomeModel.fromJson(resp);
     }
     return null;
@@ -288,5 +334,21 @@ class RemoteService {
       //// print(e.toString());
     }
     return null;
+  }
+
+  static Future<String?> sendFeedBack(map) async {
+    try {
+      http.Response res = await http.post(
+          headers: headers,
+          Uri.parse("$baseUrl/no-auth/contect-us"),
+          body: jsonEncode(map));
+      var resp = jsonDecode(res.body);
+      print(resp);
+      print(resp);
+      return resp["message"];
+    } catch (e) {
+      print(e.toString());
+      return "Unsuccessful";
+    }
   }
 }

@@ -32,8 +32,8 @@ class _PrimaryButtonState extends State<PrimaryButton> {
                   : widget.state == ButtonState.success
                       ? Colors.green
                       : widget.state == ButtonState.idle
-                          ? Colors.indigo
-                          : Colors.indigo,
+                          ? primaryColor
+                          : primaryColor,
               foregroundColor: kWhite),
           child: widget.state == ButtonState.fail
               ? SizedBox(

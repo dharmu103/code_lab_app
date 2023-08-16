@@ -6,6 +6,7 @@ import 'package:code_lab/models/store_model.dart';
 import 'package:code_lab/routes/pages.dart';
 import 'package:code_lab/services/remote_services.dart';
 import 'package:code_lab/widgets/buttons/get_code.dart';
+import 'package:code_lab/widgets/cards/card_2.dart';
 import 'package:code_lab/widgets/cards/card_4.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -107,12 +108,14 @@ class TopDeal extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
                           Container(
-                            height: 50,
-                            width: 50,
+                            height: 150,
+                            width: Get.width,
                             child: CachedNetworkImage(
                               imageUrl: args.logo!,
+                              // fit: BoxFit.fill,
                             ),
                           ),
+                          // BannerCard(args.logo!),
                           const SizedBox(
                             height: 10,
                           ),

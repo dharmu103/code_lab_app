@@ -56,6 +56,7 @@ class LocalStorage extends GetxController {
       Get.updateLocale(const Locale("en", "US"));
     }
     update();
+    print(language);
   }
 
   setCountryToken() async {
@@ -78,6 +79,7 @@ class LocalStorage extends GetxController {
   updataData() async {
     await Get.find<HomeController>().getStores();
     await Get.find<HomeController>().getDeals();
+    await Get.find<HomeController>().getDealsAll();
     update();
   }
 

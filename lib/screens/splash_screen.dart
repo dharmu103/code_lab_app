@@ -22,7 +22,7 @@ class SplashScreen extends StatelessWidget {
               //   style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
               // ),
               child: Image.asset(
-            "assets/images/logo.png",
+            "assets/images/Codatak-on-yellow-BG.png",
             width: Get.width * 0.6,
           )),
           const Padding(

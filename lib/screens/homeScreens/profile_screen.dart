@@ -61,7 +61,8 @@ class ProfileScreen extends StatelessWidget {
                       return Container();
                     }
                     return Text(
-                      "Referral Earning : ${_.referDetail?.referraldetails?.referralpoints ?? 0}",
+                      "referral_earning".tr +
+                          ': ${_.referDetail?.referraldetails?.referralpoints ?? 0}',
                       style: TextStyle(fontSize: 16, color: primaryColor)
                           .copyWith(),
                     );
@@ -87,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
                 //   ],
                 // ),
                 ),
-            padding: const EdgeInsets.all(18),
+            // padding: const EdgeInsets.all(18),
             child: Column(
               children: [
                 // Padding(
@@ -117,6 +118,8 @@ class ProfileScreen extends StatelessWidget {
                 // Divider(),
 
                 /// -- IMAGE
+                ///
+
                 GetBuilder<LocalStorage>(builder: (_) {
                   if (LocalStorage.accessToken == "") {
                     return Container();
@@ -243,10 +246,54 @@ class ProfileScreen extends StatelessWidget {
                       : Container(),
                 ),
                 const SizedBox(height: 30),
+                GetBuilder<LocalStorage>(builder: (_) {
+                  if (LocalStorage.accessToken == "") {
+                    return Container();
+                  }
+                  return Container(
+                    decoration: BoxDecoration(color: Colors.red),
+                    child: controller.user.profile?.emailVerified == true
+                        ? Container(
+                            // child: Text(controller.user.profile!.emailVerified
+                            //     .toString()),
+                            )
+                        : Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 30,
+                              ),
+                              Text(
+                                "Email verification Pending",
+                                style: TextStyle(
+                                    color: kWhite, fontWeight: FontWeight.bold),
+                              ),
+                              Spacer(),
+                              TextButton(
+                                  onPressed: () {
+                                    controller.sendEmailOtp({
+                                      "email": controller.user.profile!.email
+                                    });
+                                  },
+                                  child: Text(
+                                    "Verify Here",
+                                    style: TextStyle(
+                                        color: kWhite,
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.underline),
+                                  )),
+                              SizedBox(
+                                width: 30,
+                              ),
+                            ],
+                          ),
+                  );
+                }),
                 const Divider(),
                 const SizedBox(height: 10),
 
                 /// -- MENU
+
                 ProfileMenuWidget(
                   title: "language".tr,
                   icon: LineAwesomeIcons.language,
@@ -271,6 +318,12 @@ class ProfileScreen extends StatelessWidget {
                   },
                 ),
                 ProfileMenuWidget(
+                    title: "contact_us".tr,
+                    icon: LineAwesomeIcons.facebook_messenger,
+                    onPress: () {
+                      Get.toNamed(Routes.CONTECTUS);
+                    }),
+                ProfileMenuWidget(
                     title: "rate_us".tr,
                     icon: LineAwesomeIcons.raised_fist,
                     onPress: () {
@@ -281,16 +334,42 @@ class ProfileScreen extends StatelessWidget {
                   init: HomeController(),
                   initState: (_) {},
                   builder: (_) {
-                    if (RemoteService.user.profile?.email == null) {
-                      return Container();
+                    if (RemoteService.user.profile?.email == null ||
+                        LocalStorage.country != "UAE") {
+                      return Container(
+                          // child: Text(LocalStorage.country.toString()),
+                          );
                     }
                     return ProfileMenuWidget(
                         title: "refer_and_earn".tr,
                         icon: LineAwesomeIcons.share,
-                        onPress: () {
-                          Share.share(
-                              'I recently tried *Code Lab* App & highly recommend it! You get extra Cashback on top of all retailer discounts. Try it out:  ${_.referDetail?.referraldetails?.referrallink}  and your invite code is *${_.referDetail?.referraldetails?.referralcode}* , ',
-                              subject: 'Look what I made!');
+                        onPress: () async {
+                          Get.defaultDialog(
+                              titlePadding: EdgeInsets.only(top: 20),
+                              title: "refer_and_earn".tr,
+                              content: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 15.0, horizontal: 10),
+                                child: Text(LocalStorage.language == "English"
+                                    ? "Earn 10 points for every successful friend installation referred by you in gulf countries.Once you accumulate 100 points, simply email us a screenshot of your profile at support@codatak.me to claim your rewards.Start referring today and unlock exciting benefits!"
+                                    : '''"اكسب 10 نقاط مقابل كل صديق يقوم بتثبيت التطبيق بنجاح بناءً على إحالتك في دول الخليج.
+بمجرد أن تجمع 100 نقطة، ببساطة أرسل لنا صورة لملفك الشخصي عبر البريد الإلكتروني على support@codatak.me لاستلام مكافآتك"'''),
+                              ),
+                              cancel: ElevatedButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: Text("cancel".tr)),
+                              confirm: ElevatedButton(
+                                  onPressed: () async {
+                                    await _.getReferDetails();
+                                    Share.share(
+                                        LocalStorage.language == "English"
+                                            ? "You've got to check it out! Simply download the FREE app *Codatak* using my referral code   *${_.referDetail?.referraldetails?.referralcode}* , and you'll unlock access to exclusive discount codes and deals from top brands, restaurants, and all the best shopping spots!  ${_.referDetail?.referraldetails?.referrallink} , "
+                                            : ''' "لا يفوتك! قم بتنزيل التطبيق المجاني كوداتك باستخدام كود الإحالة الخاص بي *${_.referDetail?.referraldetails?.referralcode}*  وستحصل على أكواد خصومات حصرية وصفقات من أفضل العلامات التجارية والمطاعم وأفضل أماكن التسوق!" ${_.referDetail?.referraldetails?.referrallink}''',
+                                        subject: 'Look what I made!');
+                                  },
+                                  child: Text("share".tr)));
                         });
                   },
                 ),
@@ -340,13 +419,17 @@ class ProfileScreen extends StatelessWidget {
                               child: Text("are_you_sure".tr),
                             ),
                             cancel: ElevatedButton(
-                                onPressed: () {}, child: Text("cancle".tr)),
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: Text("cancel".tr)),
                             confirm: ElevatedButton(
                                 onPressed: () async {
+                                  Get.back();
                                   final pref =
                                       await SharedPreferences.getInstance();
-                                  pref.clear();
-                                  Get.back();
+                                  // pref.clear();
+                                  pref.setString("accessToken", "");
                                   RemoteService.user.profile =
                                       UserModel().profile;
                                   Get.snackbar("logout".tr, "successfully".tr,
@@ -354,6 +437,7 @@ class ProfileScreen extends StatelessWidget {
                                       colorText: kWhite);
                                   Get.find<LocalStorage>().setAccessToken();
                                   Get.find<LoginController>().logout();
+
                                   // Get.toNamed(Routes.INITIAL);
                                 },
                                 child: Text("ok".tr)));

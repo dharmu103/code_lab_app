@@ -47,8 +47,19 @@ Widget card3(context, HomeDeals deal) {
                 // ),
                 InkWell(
                   onTap: () {
-                    Share.share('check out my website ${deal.link}',
-                        subject: 'Look what I made!');
+                    if (deal.coupon != null) {
+                      Share.share(
+                          LocalStorage.language == "English"
+                              ? '${deal.description} use code *${deal.coupon}*   ${deal.link}'
+                              : '${deal.descriptionArabic} use code *${deal.coupon}*   ${deal.link}',
+                          subject: 'Look what I made!');
+                    } else {
+                      Share.share(
+                          LocalStorage.language == "English"
+                              ? '${deal.description}    ${deal.link}'
+                              : '${deal.descriptionArabic}    ${deal.link}',
+                          subject: 'Look what I made!');
+                    }
                   },
                   child: const Icon(
                     Icons.share_sharp,
@@ -152,7 +163,7 @@ Widget seeAllcard3() {
               BoxShadow(color: Colors.grey, blurRadius: 0.1, spreadRadius: 0.01)
             ]),
         child: TextButton(
-          child: Text("See All"),
+          child: Text("see_all".tr),
           onPressed: () {
             Get.toNamed(Routes.BRANDS);
           },

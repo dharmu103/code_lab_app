@@ -1,3 +1,4 @@
+import 'package:code_lab/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 Widget textfields(controller, hint, validator) {
@@ -9,7 +10,7 @@ Widget textfields(controller, hint, validator) {
     decoration: InputDecoration(
         hintText: hint,
         filled: true,
-        fillColor: Colors.indigoAccent.withOpacity(0.1),
+        fillColor: primaryColor.withOpacity(0.1),
         contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
         border: OutlineInputBorder(
             borderSide: BorderSide.none,

@@ -1,14 +1,18 @@
 import 'package:code_lab/color_constant.dart';
 import 'package:code_lab/controllers/home_controller.dart';
+import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../models/categories_list_model.dart';
+
 class CustomChips extends StatefulWidget {
-  CustomChips({super.key, this.text});
-  String? text;
+  CustomChips({super.key, required this.categories});
+  Categories categories;
+
   @override
   State<CustomChips> createState() => _ChipsState();
 }
@@ -32,14 +36,15 @@ class _ChipsState extends State<CustomChips> {
               //   seleted = !seleted;
               // });
 
-              Get.find<HomeController>().filterDeal(widget.text.toString());
+              Get.find<HomeController>()
+                  .filterDeal(widget.categories.name.toString());
             },
             child: Stack(
               children: [
                 Container(
                     decoration: BoxDecoration(
                         color: kWhite,
-                        border: c.filterText == widget.text
+                        border: c.filterText == widget.categories.name
                             ? Border.all(color: ColorConstant.blue, width: 2)
                             : null,
                         borderRadius: BorderRadius.circular(14),
@@ -58,8 +63,10 @@ class _ChipsState extends State<CustomChips> {
                             width: 5,
                           ),
                           Text(
-                            widget.text ?? "",
-                            style: c.filterText == widget.text
+                            LocalStorage.language == "English"
+                                ? widget.categories.name.toString()
+                                : widget.categories.nameArabic.toString(),
+                            style: c.filterText == widget.categories.name
                                 ? TextStyle(color: ColorConstant.blue)
                                 : null,
                           )

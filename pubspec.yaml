@@ -60,6 +60,8 @@ dependencies:
   firebase_messaging: ^14.6.5
   flutter_local_notifications: ^15.1.0+1
   moengage_flutter: ^5.5.0
+  fluttertoast: ^8.0.9
+  pinput: ^2.4.0
   # moengage_flutter: ^5.4.0
 dev_dependencies:
   flutter_test:
@@ -67,11 +69,13 @@ dev_dependencies:
   build_runner: ^2.3.3
   json_serializable: ^6.6.0
   flutter_launcher_icons: "^0.13.1"
+  
+
 
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/logo.png"
+  image_path: "assets/images/app-logo.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   
   # The "flutter_lints" package below contains a set of recommended lints to

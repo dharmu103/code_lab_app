@@ -74,7 +74,7 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   height: 25,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("or"),

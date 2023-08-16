@@ -173,7 +173,7 @@ Widget card4(context, HomeDeals deal) {
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Text(
-                  "last_used".tr + " " + '${deal.lastUsed ?? ""} ',
+                  "LAST USED" + " " + '${deal.lastUsed ?? ""} ',
                   style: TextStyle(
                       color: ColorConstant.fromHex("#00682F"),
                       fontWeight: FontWeight.bold),
@@ -209,8 +209,19 @@ Widget card4(context, HomeDeals deal) {
                   backgroundColor: ColorConstant.yellow700,
                 ),
                 onPressed: () {
-                  Share.share('check out my website ${deal.link}',
-                      subject: 'Look what I made!');
+                  if (deal.coupon != null) {
+                    Share.share(
+                        LocalStorage.language == "English"
+                            ? '${deal.description} use code *${deal.coupon}*   ${deal.link}'
+                            : '${deal.descriptionArabic} use code *${deal.coupon}*   ${deal.link}',
+                        subject: 'Look what I made!');
+                  } else {
+                    Share.share(
+                        LocalStorage.language == "English"
+                            ? '${deal.description}    ${deal.link}'
+                            : '${deal.descriptionArabic}    ${deal.link}',
+                        subject: 'Look what I made!');
+                  }
                 },
                 icon: CircleAvatar(
                   backgroundColor: ColorConstant.yellow700,

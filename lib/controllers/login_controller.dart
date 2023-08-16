@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:progress_state_button/progress_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../screens/authScreens/otp_screen.dart';
 
 class LoginController extends GetxController {
   ButtonState btnstate = ButtonState.idle;
@@ -22,7 +23,7 @@ class LoginController extends GetxController {
     final pref = await SharedPreferences.getInstance();
     if (pref.getBool("isFirstTime") == false) {
       await getProfile();
-      Get.toNamed(Routes.HOME);
+      Get.offAllNamed(Routes.HOME);
     }
 
     super.onReady();
@@ -51,7 +52,7 @@ class LoginController extends GetxController {
     // // btnstate = ButtonState.idle;
     // // update();
     Get.find<LocalStorage>().setAccessToken();
-
+    getProfile();
     return res;
   }
 
@@ -170,6 +171,43 @@ class LoginController extends GetxController {
     user = RemoteService.user;
     update();
     return "";
+  }
+
+  Future sendEmailOtp(map) async {
+    Get.dialog(Center(
+      child:
+          SizedBox(width: 20, height: 20, child: CircularProgressIndicator()),
+    ));
+    var res = await RemoteService.sendEmailOtp(map);
+    Get.back();
+    print(res);
+    if (res["status"] == 200) {
+      print("sab kuch badiya");
+
+      var r = await Get.to(OtpScreen(), arguments: res["session_id"]);
+      print(r);
+      update();
+    } else {
+      Get.snackbar("Error", "OTP not sent",
+          colorText: Colors.white, backgroundColor: Colors.red);
+    }
+  }
+
+  Future<String?> verifyOtp(map) async {
+    btnstate = ButtonState.loading;
+    update();
+    var res = await RemoteService.verifyEmailOtp(map);
+    print(res);
+    btnstate = ButtonState.idle;
+    update();
+    if (res["status"] == 200) {
+      await getProfile();
+      update();
+      return "";
+    } else {
+      print("this");
+      return res["message"];
+    }
   }
 
   logout() {

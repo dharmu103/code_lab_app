@@ -12,7 +12,6 @@ class ThemeDataOfApp {
     primaryColor: primaryColor,
     textTheme: GoogleFonts.tajawalTextTheme(),
     primaryColorLight: primaryColor,
-
     // useMaterial3: true,
   );
 }

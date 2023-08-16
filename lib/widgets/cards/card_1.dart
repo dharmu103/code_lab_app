@@ -84,7 +84,7 @@ Widget seeAllcard1() {
           child: ClipRRect(
               borderRadius: BorderRadius.circular(14),
               child: TextButton(
-                child: Text("See All"),
+                child: Text("see_all".tr),
                 onPressed: () {
                   Get.toNamed(Routes.BRANDS);
                 },

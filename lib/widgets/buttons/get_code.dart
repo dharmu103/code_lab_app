@@ -60,7 +60,7 @@ class _CopyCodeState extends State<CopyCode> {
       return DottedBorder(
           borderType: BorderType.RRect,
           dashPattern: [5, 4],
-          radius: const Radius.circular(24),
+          radius: const Radius.circular(10),
           child: Container(
             height: 40,
             child: Center(

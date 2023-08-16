@@ -49,31 +49,30 @@ class BrandsScreen extends StatelessWidget {
                             itemBuilder: ((context, index) {
                               if (index == 0) {
                                 return CustomChips(
-                                    text: LocalStorage.language == "Arabic"
-                                        ? "${controller.categoriesList?.categories?[index].nameArabic}"
-                                        : "${controller.categoriesList?.categories?[index].name}");
+                                    categories: controller
+                                        .categoriesList!.categories![index]);
                               }
                               if (index ==
                                   controller
                                           .categoriesList!.categories!.length -
                                       1) {
                                 return Padding(
-                                    padding: const EdgeInsets.only(right: 20.0),
+                                    padding: LocalStorage.language == "English"
+                                        ? const EdgeInsets.only(right: 20.0)
+                                        : const EdgeInsets.only(right: 1.0),
                                     child: CustomChips(
-                                        text: LocalStorage.language == "Arabic"
-                                            ? "${controller.categoriesList?.categories?[index].nameArabic}"
-                                            : "${controller.categoriesList?.categories?[index].name}"));
+                                        categories: controller.categoriesList!
+                                            .categories![index]));
                               }
 
                               return CustomChips(
-                                  text: LocalStorage.language == "Arabic"
-                                      ? "${controller.categoriesList?.categories?[index].nameArabic}"
-                                      : "${controller.categoriesList?.categories?[index].name}");
+                                  categories: controller
+                                      .categoriesList!.categories![index]);
                             })),
                       ),
                       Divider(),
                       SizedBox(
-                        height: 70,
+                        height: 80,
                         child: ListView.builder(
                             shrinkWrap: true,
                             physics: const ScrollPhysics(),
@@ -97,7 +96,7 @@ class BrandsScreen extends StatelessWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: CircleAvatar(
-                                          radius: 30,
+                                          radius: 35,
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(50),
@@ -111,7 +110,8 @@ class BrandsScreen extends StatelessWidget {
                                             //           color: Colors.grey)
                                             //     ]),
                                             child: Padding(
-                                              padding: const EdgeInsets.all(.0),
+                                              padding:
+                                                  const EdgeInsets.all(0.0),
                                               child: CachedNetworkImage(
                                                 imageUrl: controller
                                                     .brands!.brands![index].logo
@@ -124,39 +124,41 @@ class BrandsScreen extends StatelessWidget {
                                       ),
                                     ));
                               }
-                              if (index == 9) {
-                                return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                        margin:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Get.to(
-                                              TopDeal(
-                                                  args: controller
-                                                      .brands!.brands![index]),
-                                            );
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: CircleAvatar(
-                                              backgroundColor: kWhite,
-                                              radius: 30,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(18.0),
-                                                child: Image.network(
-                                                  controller.brands!
-                                                      .brands![index].logo
-                                                      .toString(),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )));
-                              }
+                              // if (index == 9) {
+                              //   return Padding(
+                              //       padding: const EdgeInsets.all(8.0),
+                              //       child: Container(
+                              //           margin:
+                              //               const EdgeInsets.only(left: 8.0),
+                              //           child: GestureDetector(
+                              //             onTap: () {
+                              //               Get.to(
+                              //                 TopDeal(
+                              //                     args: controller
+                              //                         .brands!.brands![index]),
+                              //               );
+                              //             },
+                              //             child: Padding(
+                              //               padding: const EdgeInsets.all(8.0),
+                              //               child: CircleAvatar(
+                              //                 backgroundColor: kWhite,
+                              //                 radius: 35,
+                              //                 child: Padding(
+                              //                   padding:
+                              //                       const EdgeInsets.all(18.0),
+                              //                   child: ClipRect(
+                              //                     child: Image.network(
+                              //                       controller.brands!
+                              //                           .brands![index].logo
+                              //                           .toString(),
+                              //                       fit: BoxFit.cover,
+                              //                     ),
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //           )));
+                              // }
                               return Container(
                                   // margin: const EdgeInsets.only(left: 8.0),
                                   child: GestureDetector(
@@ -171,11 +173,21 @@ class BrandsScreen extends StatelessWidget {
                                   padding: const EdgeInsets.all(8.0),
                                   child: CircleAvatar(
                                     backgroundColor: kWhite,
-                                    radius: 30,
-                                    backgroundImage: NetworkImage(
-                                      controller.brands!.brands![index].logo
-                                          .toString(),
+                                    radius: 35,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(.0),
+                                        child: CachedNetworkImage(
+                                            imageUrl: controller
+                                                .brands!.brands![index].logo
+                                                .toString()),
+                                      ),
                                     ),
+                                    // backgroundImage: NetworkImage(
+                                    //   controller.brands!.brands![index].logo
+                                    //       .toString(),
+                                    // ),
                                   ),
                                 ),
                               ));

@@ -1,6 +1,7 @@
 import 'package:code_lab/localStorage/pref.dart';
 import 'package:code_lab/screens/authScreens/login_screen.dart';
 import 'package:code_lab/screens/authScreens/signup_screen.dart';
+import 'package:code_lab/screens/contect_us/feedback_screen.dart';
 import 'package:code_lab/screens/first_screen.dart';
 import 'package:code_lab/screens/homeScreens/brands_screen.dart';
 import 'package:code_lab/screens/homeScreens/main_home.dart';
@@ -8,6 +9,7 @@ import 'package:code_lab/screens/splash_screen.dart';
 import 'package:get/get.dart';
 
 import '../controllers/splash_controller.dart';
+import '../screens/contect_us/contect_us_screen.dart';
 import '../screens/search_screen.dart';
 
 part './routes.dart';
@@ -41,6 +43,14 @@ abstract class AppPages {
     GetPage(
       name: Routes.BRANDS,
       page: () => const BrandsScreen(),
+    ),
+    GetPage(
+      name: Routes.CONTECTUS,
+      page: () => const ContectUsScreen(),
+    ),
+    GetPage(
+      name: Routes.FEEDBACK,
+      page: () => const FeedbackScreen(),
     )
   ];
 }

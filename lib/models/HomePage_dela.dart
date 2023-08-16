@@ -8,7 +8,7 @@ class HomeDeals {
   String? coupon;
   String? link;
 
-  List<String?>? tags;
+  List? tags;
   int? index;
   String? lastUsed;
   String? usedTimes;
@@ -40,7 +40,7 @@ class HomeDeals {
     descriptionArabic = json['description_arabic'];
     coupon = json['coupon'];
     link = json['link'];
-    tags = json['tags'].cast<String>();
+    tags = json['tags'].cast();
     lastUsed = json["last_used"];
     usedTimes = json["used_times"];
     index = json['index'];

@@ -34,7 +34,7 @@ optionSheet(context, list, data) {
                         },
                       );
                     }),
-                    title: Text('${list[index]}'),
+                    title: Text('${list[index]}'.tr),
                     onTap: () async {
                       print(index);
                       print(data);
