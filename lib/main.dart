@@ -3,30 +3,29 @@ import 'package:code_lab/theme/colors.dart';
 import 'package:code_lab/theme/thems_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'controllers/bindings.dart';
 import 'locales/messages.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:moengage_flutter/moengage_flutter.dart';
 
-final MoEngageFlutter _moengagePlugin = MoEngageFlutter(
-  "com.example.code_lab",
-);
-Future<void> message(RemoteMessage message) async {
-  print(message.data.toString());
-  print(message.toString());
-}
+// final MoEngageFlutter _moengagePlugin = MoEngageFlutter(
+//   "com.example.code_lab",
+// );
+// Future<void> message(RemoteMessage message) async {
+//   print(message.data.toString());
+//   print(message.toString());
+// }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseMessaging.onBackgroundMessage(message);
-  String? token = await FirebaseMessaging.instance.getToken();
-  _moengagePlugin.initialise();
-  _moengagePlugin.passFCMPushToken(token!);
+  // FirebaseMessaging.onBackgroundMessage(message);
+  // String? token = await FirebaseMessaging.instance.getToken();
+  // _moengagePlugin.initialise();
+  // _moengagePlugin.passFCMPushToken(token!);
   runApp(const MyApp());
 }
 

@@ -40,7 +40,7 @@ class HomeDeals {
     descriptionArabic = json['description_arabic'];
     coupon = json['coupon'];
     link = json['link'];
-    tags = json['tags'].cast();
+    tags = json['tags'];
     lastUsed = json["last_used"];
     usedTimes = json["used_times"];
     index = json['index'];

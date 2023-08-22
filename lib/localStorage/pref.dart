@@ -80,6 +80,7 @@ class LocalStorage extends GetxController {
     await Get.find<HomeController>().getStores();
     await Get.find<HomeController>().getDeals();
     await Get.find<HomeController>().getDealsAll();
+    await Get.find<HomeController>().fatchCarousel();
     update();
   }
 
